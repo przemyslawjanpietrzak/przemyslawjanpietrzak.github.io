@@ -395,6 +395,18 @@ const magic = compose(
             <img src="img/ts.png" width="300" height="300">
             <img src="img/flow.png" width="300" height="300">
           </div>
+          <pre>
+            <code class="language-javascript">
+interface Person {
+    firstName: string;
+    lastName: string;
+}
+
+function greeter(person: Person): string {
+    return "Hello, " + person.firstName + " " + person.lastName;
+}
+</code>
+</pre>
           </div>
 
 
@@ -402,6 +414,13 @@ const magic = compose(
           <div class="img">
             <img src="img/ramda.png" width="300" height="300">
           </div>
+          <pre>
+            <code class="language-javascript">
+sliceFrom(6, 'abcdefghijklm'); //=> 'ghijklm'
+var sliceFrom6 = R.invoker(2, 'slice')(6);
+sliceFrom6(8, 'abcdefghijklm'); //=> 'gh'
+</code>
+</pre>
           </div>
 
 
@@ -409,6 +428,13 @@ const magic = compose(
           <div class="img">
             <img src="img/monet.jpg">
           </div>
+          <pre>
+            <code class="language-javascript">
+var maybe = Maybe.Some(val);
+var maybe = Maybe.None();
+var maybe = Maybe.fromNull(val);
+</code>
+</pre>
           </div>
 
 
@@ -416,12 +442,39 @@ const magic = compose(
           <div class="img">
             <img src="img/cljs.svg" width="300" height="300">
           </div>
+          <pre>
+            <code class="language-javascript">
+(defn argcount
+  ([] 0)
+  ([x] 1)
+  ([x y] 2)
+  ([x y & more] (+ (argcount x y) (count more))))
+-> #'user/argcount
+(argcount)
+-> 0
+(argcount 1)
+-> 1
+(argcount 1 2)
+-> 2
+(argcount 1 2 3 4 5)
+-> 5
+</code>
+</pre>
           </div>
 
           <div class="step" step="21" data-x="16000" data-y="8000">
           <div class="img">
             <img src="img/elm.png" width="300" height="300">
           </div>
+<pre>
+<code class="language-haskell">
+weirdReversal2 string =
+  string
+    |> String.reverse
+    |> String.toUpper
+    |> String.filter isNotSpace
+</code>
+</pre>
           </div>
 
 
@@ -429,7 +482,37 @@ const magic = compose(
           <div class="img">
             <img src="img/purescript.svg" width="300" height="300">
           </div>
+<pre>
+<code class="language-haskell">
+import Flare
+import Flare.Smolder
+
+ui = greet <$> string "Name" "World"
+  where
+  greet name = h1 $ text $ "Hello, " <> name <> "!"
+</code>
+</pre>
           </div>
+
+
+        <div class="step" step="22" data-x="18000" data-y="0">
+          <div class="title">
+            <h1>literature</h2>
+          </div>
+          <ul>
+            <li><a href="https://flow.org/">Flow</a></li>
+            <li><a href="https://www.typescriptlang.org/">TypeScript</a></li>
+            <li><a href="http://ramdajs.com/">Ramda</a></li>
+            <li><a href="https://monet.github.io/monet.js/">Monet.js</a></li>
+            <li><a href="https://clojurescript.org/">ClojureScript</a></li>
+            <li><a href="http://elm-lang.org/">Elm</a></li>
+            <li><a href="http://www.purescript.org/">PureScript</a></li>
+          </ul>
+          <ul>
+            <li><a href="https://egghead.io/courses/professor-frisby-introduces-composable-functional-javascript">Functional JS course</a></li>
+            <li><a href="http://learnyouahaskell.com/">Learn Haskell for great good</a></li>
+          </ul>
+        </div>
 
 
 

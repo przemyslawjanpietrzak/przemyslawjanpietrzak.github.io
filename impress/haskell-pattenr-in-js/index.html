@@ -337,6 +337,24 @@ divideByTen = (/10)
 
 
 
+          <div class="step" step="15" data-x="12000" data-y="2000">
+          <pre>
+              <code class="language-javascript">
+let count = 0;
+const factorial = R.memoizeWith(R.identity, n => {
+  count += 1;
+  return R.product(R.range(1, n + 1));
+});
+factorial(5); //=> 120
+factorial(5); //=> 120
+factorial(5); //=> 120
+count; //=> 1)
+
+              </code>
+            </pre>
+          </div>
+
+
           <div class="step" step="16" data-x="12000" data-y="4000">
             <div class="pure-g">
               <div class="pure-u-1-2">
@@ -416,9 +434,15 @@ function greeter(person: Person): string {
           </div>
           <pre>
             <code class="language-javascript">
-sliceFrom(6, 'abcdefghijklm'); //=> 'ghijklm'
-var sliceFrom6 = R.invoker(2, 'slice')(6);
-sliceFrom6(8, 'abcdefghijklm'); //=> 'gh'
+let count = 0;
+const factorial = R.memoize(n => {
+  count += 1;
+  return R.product(R.range(1, n + 1));
+});
+factorial(5); //=> 120
+factorial(5); //=> 120
+factorial(5); //=> 120
+count; //=> 1
 </code>
 </pre>
           </div>

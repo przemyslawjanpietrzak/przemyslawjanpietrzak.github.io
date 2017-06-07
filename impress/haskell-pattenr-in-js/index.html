@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Bitcoin</title>
+    <title>askell patterns in JavaScript</title>
     <link rel="stylesheet" href="prism.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.2/base-min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pure/0.6.2/grids-min.css">
@@ -20,6 +20,10 @@
         text-align: center;
         margin: 100px;
       }
+
+      .subtitle {
+        text-align: center;
+      }
     </style>
   </head>
   <body>
@@ -33,6 +37,11 @@
           <div class="img">
             <img src="img/functional-js.png">
           </div>
+          <div class="subtitle">
+            <p>powered by:</p>
+            <p><a href="https://github.com/przemyslawjanpietrzak">Przemysław Jan Pietrzak</a></p>
+          </div>
+
         </div>
 
         <div class="step" step="2" data-x="2000" data-y="0">
@@ -337,7 +346,7 @@ divideByTen = (/10)
 
 
 
-          <div class="step" step="15" data-x="12000" data-y="2000">
+          <div class="step" step="15" data-x="12000" data-y="4000">
           <pre>
               <code class="language-javascript">
 let count = 0;
@@ -355,7 +364,7 @@ count; //=> 1)
           </div>
 
 
-          <div class="step" step="16" data-x="12000" data-y="4000">
+          <div class="step" step="16" data-x="12000" data-y="6000">
             <div class="pure-g">
               <div class="pure-u-1-2">
             <pre>
@@ -381,12 +390,12 @@ ghci> filter (==3) [1,2,3,4,5]
             </div>
           </div>
 
-          <div class="step" step="17" data-x="12000" data-y="6000">
+          <div class="step" step="17" data-x="12000" data-y="8000">
             <div class="pure-g">
               <div class="pure-u-1-2">
             <pre>
               <code class="language-javascript">
-const magin = (collection) => collection
+const magic = (collection) => collection
   .filter(hasProp('ticked'))
   .map(someMap)
   .reduce(sum);

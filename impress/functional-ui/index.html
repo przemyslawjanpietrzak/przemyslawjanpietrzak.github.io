@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>TITLE</title>
+    <title>functional-ui</title>
 
     <!-- meta information -->
     <meta name="author" content="Torsten Schrade" />
@@ -54,17 +54,6 @@
 
 <body>
 
-    <!--<div class="fallback-message">-->
-        <!--<p>-->
-            <!--Your browser <strong>doesn't support the features required</strong> by impress.mod.js,-->
-            <!--so you are presented with a simplified version of this presentation.-->
-        <!--</p>-->
-        <!--<p>-->
-            <!--For the best experience please use the latest <strong>Chrome</strong>, <strong>Safari</strong>-->
-            <!--or <strong>Firefox</strong> browser.-->
-        <!--</p>-->
-    <!--</div>-->
-
     <div id="impress">
 
         <div class="step">
@@ -77,7 +66,7 @@
 
             <h4 class="down-100">
                 <strong>Slides:</strong>
-                <a href="#" title="View the presentation online">
+                <a href="https://przemyslawjanpietrzak.github.io/impress/functional-ui/#/step-1" title="View the presentation online">
                     Link
                 </a>
             </h4>
@@ -317,101 +306,107 @@ function todoApp(state = initialState, action) {
 
 
         <div class="step">
-            <h2>Alternative code listing</h2>
-            <h3 class="red up-25 after-25">With Codemirror (support for even more languages)</h3>
-<form><textarea id="sparql" name="sparql">
-PREFIX rel: &lt;http://purl.org/vocab/relationship/&gt;
-PREFIX rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt;
-PREFIX foaf: &lt;http://xmlns.com/foaf/0.1/&gt;
-PREFIX rdf: &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt;
+            <h2>equals?</h2>
 
-SELECT DISTINCT ?subject ?subjectLabel ?object ?objectLabel ?predicate
-WHERE {
-    ?subject ?predicate ?object .
-    ?subject (rel:parentOf|^rel:parentOf|rel:spouseOf) ?object .
-    ?subject rdfs:label ?subjectLabel .
-    ?object rdfs:label ?objectLabel .
-    ?subject foaf:gender ?subjectGender .
-    ?object foaf:gender ?objectGender .
-    BIND (IF(?subjectGender = "male"@en, "gold", "yellowgreen") AS ?sourceColor)
-    BIND (IF(?objectGender = "male"@en, "gold", "yellowgreen") AS ?targetColor)
+<pre>
+<code class="js">
+import { Map } from "immutable";
+const map1 = Map({ a: 1, b: 2, c: 3 });
+const map2 = map1.set('b', 50);
+map1.get('b'); // 2
+map2.get('b'); // 50
+</code>
+</pre>
+
+
+<pre>
+<code class="js">
+{ name: 'John Doe', age: 42, isDeveloper: true } === { name: 'John Doe', age: 42, isDeveloper: true } // false
+
+Map({ name: 'John Doe', age: 42, isDeveloper: true }).equals(Map({ name: 'John Doe', age: 42, isDeveloper: true })) // true
+Map({ name: 'John Doe', age: 42, isDeveloper: true }).hash() === Map({ name: 'John Doe', age: 42, isDeveloper: true }) // true
+</code>
+</pre>
+
+        </div>
+
+
+
+
+      <div class="step">
+          <h2>Should I change?</h2>
+
+          <pre>
+          <code class="js">
+class MyComponent extends react.Component {
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return !nextProps.equals(extState)
+  }
 }
-</textarea></form>
-        <p>
-             Website:  <a href="https://codemirror.net/">https://codemirror.net/</a>
-        </p>
+          </code>
+          </pre>
         </div>
 
         <div class="step">
-            <h2>Charts</h2>
-            <h3 class="red up-25 after-50">With chartist.js</h3>
-            <div class="ct-container">
-                <div class="ct-chart ct-major-twelfth project-count"></div>
-            </div>
-            <p class="down-25">
-                 Website: <a href="https://gionkunz.github.io/chartist-js/">https://gionkunz.github.io/chartist-js/</a>
-            </p>
-        </div>
+         <h2>Résumé</h2>
+         <ol class="line-height-one-five">
+             <li>
+                 Pure components
+             </li>
+             <li>
+                 Single state
+             </li>
+             <li>
+                 Unit tests
+             </li>
 
-        <div class="step">
-            <h2>Graph models</h2>
-            <h3 class="red up-25 after-25">With greuler.js</h3>
-            <div id="greuler"></div>
-            <script>
-                'use strict';
-                greuler({
-                  target: '#greuler',
-                  width: 480,
-                  height: 300,
-                  data: greuler.Graph.random({
-                    order: 5,
-                    size: 5,
-                    connected: true
-                  })
-                }).update()
-            </script>
-            <p class="down-75">
-                 Website: <a href="https://maurizzzio.github.io/greuler/#/">https://maurizzzio.github.io/greuler/#/</a>
-            </p>
-        </div>
+             <li>
+                 immutable data structure
+             </li>
 
-        <div class="step">
-            <div class="centered">
-                <h1>THE &nbsp;&nbsp;&nbsp;END</h1>
-                <h2>Thank you :*</h2>
-            </div>
-        </div>
+             <li>
+               React + Redux on production ???
+             </li>
+         </ol>
+       </div>
+
+
 
         <div class="step">
 
-            <h2>Literature &amp; Software</h2>
+            <h2>Literature</h2>
 
-            <h4>Literature</h4>
+            <h4>Links</h4>
 
             <ul class="small">
                 <li>
-                    One
+                    <a href="https://facebook.github.io/react/">React</a>
                 </li>
                 <li>
-                    Two
+                    <a href="https://github.com/reactjs/redux">Redux</a>
                 </li>
                 <li>
-                    Three
+                    <a href="https://facebook.github.io/immutable-js/">Immutable</a>
+                </li>
+                <li>
+                  <a href="https://facebook.github.io/jest/docs/en/tutorial-react.html">Jest</a>
+              </li>
+                <li>
+                  <a href="https://github.com/reagent-project/reagent">Reagent</a>
+                </li>
+                <li>
+                    <a href="http://elm-lang.org/">Elm</a>
                 </li>
             </ul>
 
-            <h4>Software</h4>
-
+            <h4>Work Hard to keep it simple</h4>
+            <h3 class="red up-25 after-50">Martin Odersky </h3>
             <ul class="small">
                 <li>
-                    One
+                    <a href="https://www.youtube.com/watch?v=3jg1AheF4n0">Link</a>
                 </li>
-                <li>
-                   Two
-                </li>
-                <li>
-                    Three
-                </li>
+
             </ul>
 
             <h4>Download</h4>
@@ -425,6 +420,13 @@ WHERE {
                     License: <a href="https://creativecommons.org/licenses/by/4.0/">CC-BY 4.0</a>, Author
                 </li>
             </ul>
+        </div>
+
+        <div class="step">
+            <div class="centered">
+                <h1>THE &nbsp;&nbsp;&nbsp;END</h1>
+                <h2>Thank you :*</h2>
+            </div>
         </div>
 
     </div>

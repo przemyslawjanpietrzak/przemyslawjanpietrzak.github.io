@@ -111,28 +111,6 @@
                 </div>
             </div>
         </div>
-
-        <!--<div class="step">-->
-            <!--<h2>Selenium</h2>-->
-            <!--<img src="resources/img/selenium.png" />-->
-        <!--</div>-->
-
-        <!--<div class="step">-->
-            <!--<div class="row">-->
-                <!--<div class="six columns">-->
-                    <!--<img src="resources/img/python.png" />-->
-                <!--</div>-->
-                <!--<div class="six columns">-->
-                    <!--<img src="resources/img/pytest.png" />-->
-                <!--</div>-->
-            <!--</div>-->
-            <!--<div class="row">-->
-                <!--<pre>-->
-<!--<code class="bash">pip install selenium pytest-selenium</code>-->
-                <!--</pre>-->
-            <!--</div>-->
-        <!--</div>-->
-
         <div class="step">
             <h2>Classic error handling</h2>
 <pre>
@@ -156,7 +134,7 @@ except MyCustomException as e:
         </div>
 
                 <div class="step">
-            <h2>Classic error handling</h2>
+            <h2>Later</h2>
 <pre>
 <code class="python">def do():
     if err
@@ -206,7 +184,7 @@ if err != nil {
         </div>
 
         <div class="step">
-            <h2></h2>
+            <h2>Scala time&nbsp;<img style="height: 89px;margin-left: -13px;width: 81px;margin-bottom: -26px;" src="resources/img/scala.png"></h2>
 <pre>
 <code class="scala">val in = Console.readLine("Type Either a string or an Int: ")
 val result: Either[String, Int] = try {
@@ -318,7 +296,8 @@ mapped_applicative.fold(side_effect)
 </code>
 </pre>
 
-
+      </div>
+      <div class="step">
 <pre>
 <code class="python">from pymonet.task import Task
 
@@ -334,8 +313,8 @@ resolvable_task = Task.of(resolvable_fn)
 rejectable_task = Task.of(rejectable_fn)
 
 def mapper(value):
-print('mapper side effect ' + value)
-return value + 1
+  print('mapper side effect ' + value)
+  return value + 1
 
 resolvable_task.fold(mapper)
 # resolve side effect
@@ -348,227 +327,16 @@ rejectable_task.fold(mapper)
 
 
 
-            </div>
 
         </div>
 
         <div class="step">
-            <h2>Table of Contents</h2>
+            <h2>Why?</h2>
             <ol class="line-height-one-five">
-                <li>
-                    init
-                </li>
-                <li>
-                    actions (click, insert_text, submit)
-                </li>
-                <li>
-                    get
-                </li>
-                <li>
-                    asserts
-                </li>
+                <li class="substep">Less exceptions</li>
+                <li class="substep">More modular</li>
+                <li class="substep">More testable</li>
             </ol>
-        </div>
-
-        <div class="step">
-            <h2>Page object pattern</h2>
-            <div class="row">
-
-                <pre>
-<code class="python">class Page:
-
-    def __init__(self, driver, actions, wait):
-        self.driver = driver
-        self.actions = actions
-        self.wait = wait
-
-    def wait_for_element_clickable(self, selector):
-        return self.wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, selector)))
-
-    def is_element_present(self, element_selector):
-        try:
-            self.driver.find_element_by_css_selector(element_selector)
-            return True
-        except NoSuchElementException:
-            return False
-        except TimeoutException:
-            return False
-</code>
-                </pre>
-                <pre>
-<code class="python">class LoginPage(Page):
-
-    def login(self, user):
-        self.wait_for_element_clickable(LOGIN_VIEW_SELECTOR)
-
-        username = self.driver.find_element_by_css_selector(USERNAME_INPUT_SELECTOR)
-        password = self.driver.find_element_by_css_selector(PASSWORD_INPUT_SELECTOR)
-        username.send_keys(user.user_name)
-        password.send_keys(user.user_pass)
-        password.send_keys(Keys.RETURN)
-
-    def logout(self):
-        user_dropdown = self.driver.find_element_by_css_selector(USER_DROPDOWN_SELECTOR)
-        user_dropdown.click()
-
-        logout_button = self.driver.find_element_by_css_selector(LOGOUT_BUTTON_SELECTOR)
-        logout_button.click()
-
-    def is_login_view_present():
-        self.is_element_present(LOGIN_VIEW_SELECTOR)
-
-</code>
-                </pre>
-
-            </div>
-        </div>
-
-        <div class="step">
-            <h2>locators</h2>
-            <ol class="line-height-one-five">
-                <li>text</li>
-                <li>class</li>
-                <li>id</li>
-                <li>xpath</li>
-                <li>css</li>
-            </ol>
-        </div>
-
-        <div class="step">
-            <h2>locators</h2>
-             <pre>
-<code class="python">
-driver.find_elements_by_xpath("//*[contains(text(), 'Submit')]")
-driver.find_element_by_tag_name('button')
-driver.find_element_by_class_name('btn-default')
-driver.find_element_by_id('submit-button')
-driver.find_element_by_css_selector('[my-unique-e2e-selector="submit-button"]')
-</code>
-            </pre>
-            <pre>
-<code class="html">
-    &lt;button class="btn btn-default" my-unique-e2e-selector="submit-button">Submit&lt;/button>
-</code>
-            </pre>
-        </div>
-
-        <div class="step">
-            <h2>Async, async everywhere</h2>
-            <pre>
-<code class="python">
-
-def wait_for_element_clickable(self, selector):
-    return self.wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, selector)))
-
-def wait_for_element_visible(self, selector):
-    return self.wait.until(EC.element_to_be_visible((By.CSS_SELECTOR, selector)))
-
-def wait_for_element_not_present(self, selector):
-    counter = 15
-    while counter > 0:
-        counter -= 1
-        time.sleep(0.33)
-        if not self.is_element_present(selector):
-            return
-    raise TimeoutException
-</code>
-            </pre>
-        </div>
-
-        <div class="step">
-            <h2>Randoms</h2>
-            <div class="row">
-                <pre>
-<code class="python">
-def get_random_string(self, size=10):
-    chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
-    return ''.join(choice(chars) for _ in range(size))
-</code>
-                </pre>
-            </div>
-            <pre>
-<code class="python">def test_mail_templates(sh, item):
-
-    new_name = sh.get_random_string()
-    new_content = sh.get_random_string(size=50)
-
-    sh.change_item(item, name=new_name, content=new_content)
-    updated_item = sh.get_item()
-
-    assert item.name == new_name
-    assert item.content = new_content
-
-</code>
-            </pre>
-        </div>
-
-        <div class="step">
-            <h2>assert messages</h2>
-                <pre>
-<code class="bash">AssertionError: assert 5 == 6
-</code>
-                </pre>
-                <pre>
-<code class="python">def test(sh):
-    items = sh.get_items()
-
-    sh.add_item()
-
-    updated_items = sh.get_items()
-
-    assert len(updated_items) == len(items) + 1, 'new item was not added to list'
-
-</code>
-                </pre>
-        </div>
-
-        <div class="step">
-            <h2>Headless mode</h2>
-            <pre>
-<code class="bash">sudo apt install xvfb</code>
-            </pre>
-            <pre>
-<code class="bash">xvfb-run --server-args="-screen 0 1600x1200x24" py.test --driver Chrome --driver-path ../../etc/bin/chromedriver</code>
-            </pre>
-
-        </div>
-
-        <div class="step">
-            <h2>receipts</h2>
-            <ol class="line-height-one-five">
-                <li class="substep">Reset database before tests</li>
-                <li class="substep">Not share data between tests</li>
-                <li class="substep">Don't repeat asserts</li>
-                <li class="substep">Run parallel test on begin</li>
-            </ol>
-        </div>
-
-        <div class="step">
-            <h2>What to test</h2>
-            <h3 class="red up-25 after-25">With or without Selenium</h3>
-            <div class="row">
-                <div class="six columns">
-                    <h3>Without</h3>
-                    <ul>
-                        <li>UI
-                            <ul>
-                                <li>Component logic</li>
-                                <li>Styles change</li>
-                            </ul>
-                        </li>
-                        <li>APIs</li>
-                        <li>Database schema</li>
-                    </ul>
-
-                </div>
-                <div class="six columns">
-                    <h3>With</h3>
-                    <ol>
-                        <li>Business logic</li>
-                        <li>Complex features</li>
-                    </ol>
-                </div>
-            </div>
         </div>
 
         <div class="step">

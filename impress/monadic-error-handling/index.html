@@ -66,8 +66,8 @@
 
             <h4 class="down-100">
                 <strong>Slides:</strong>
-                <a href="https://przemyslawjanpietrzak.github.io/impress/e2e-tests-in-python/index.html" title="View the presentation online">
-                    Link
+                <a href="https://przemyslawjanpietrzak.github.io/impress/monadic-error-handling/index.html" title="View the presentation online">
+                    https://przemyslawjanpietrzak.github.io/impress/monadic-error-handling/index.html
                 </a>
             </h4>
 
@@ -258,13 +258,13 @@ fold(self, mapper: (A) -> Either[B]): Either[B]
 <pre>
 <code class="python">from pymonet.Maybe import Maybe
 
-def fins_something(item):
+def find_something(item):
     if item in special_list:
         return Maybe.just(item)
     return Maybe.nothing()
 
-fins_something(42).get_or_else(0)  # 42
-fins_something(41).get_or_else(0)  # 0
+find_something(42).get_or_else(0)  # 42
+find_something(41).get_or_else(0)  # 0
 
 </code>
 </pre>
@@ -298,6 +298,7 @@ mapped_applicative.fold(side_effect)
 
       </div>
       <div class="step">
+        <h2>More lazy</h2>
 <pre>
 <code class="python">from pymonet.task import Task
 
@@ -343,6 +344,11 @@ rejectable_task.fold(mapper)
             <div class="centered">
                 <h1>THE&nbsp;&nbsp;END</h1>
                 <h2>Thank you :*</h2>
+                <h4 class="down-100">
+                    <a href="https://przemyslawjanpietrzak.github.io/pyMonet" title="View the presentation online">
+                        https://przemyslawjanpietrzak.github.io/pyMonet
+                    </a>
+                </h4>
             </div>
         </div>
 

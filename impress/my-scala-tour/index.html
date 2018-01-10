@@ -232,6 +232,10 @@ message1 == message2  // true
                     </pre>
         </div>
 
+        <div class="step">
+            <h1>Generics</h1>
+        </div>
+
 
 
         <div class="step">
@@ -326,10 +330,11 @@ def eval: Int = this match {
         <div class="step">
                 <pre class="line-numbers">
                         <code class="language-java">
-def insert(x: Int, xs: List[Int]): List[Int] = xs match {
+def concat(x: List[Int], xs: List[Int]): List[Int] = xs match {
     case List() => x
     case y :: ys => insert(x :: y, ys)
 }
+</code>
             </pre>
         </div>
         <div class="step">
@@ -345,6 +350,7 @@ def expr = {
     def z = { print(”z”); 3 }
     z + y + x + z + y + x // xzyz
 }
+</code>
         </pre>
     </div>
 
@@ -386,7 +392,27 @@ object Stream {
         </div>
 
 
-        
+    <div class="step">
+        <h1>examples</h1>
+    </div>
+
+    <div class="step">
+        <pre class="line-numbers">
+<code class="language-java">
+(1 to 10) map { _ * 2 }
+
+(1 to 1000).reduceLeft( _ + _ )
+
+val wordList = List("scala", "akka", "play framework", "sbt", "typesafe")
+val tweet = "This is an example tweet talking about scala and sbt."
+(wordList.foldLeft(false)( _ || tweet.contains(_) ))
+wordList.exists(tweet.contains)
+
+                </code>
+            </pre>
+    </div>
+
+
 
 
     <div class="step">
@@ -452,6 +478,7 @@ object Stream {
         if path.endState contains target
         } yield path
     }
+</code>
 </pre>
 </div>
 
@@ -472,10 +499,27 @@ object Stream {
                 <li class="substep">Write JVM code withoud tons of java classes => Kotlin</li>
                 <li class="substep">Write efficient code in short time period => Golang</li>
                 <li class="substep">Learn functinal paradigm => Haskell</li>
-                <li class="substep">Strongly typing frontend => Elm</li>
+                <li class="substep">Strongly typing in frontend => Elm</li>
                 <li class="substep">For pleasure => Scala</li>
             </ul>
         </div>
+
+        <div class="step">
+                <h1>Links</h1>
+                <ul>
+                    <li><a href="http://docs.scala-lang.org/">docs</a></li>
+                    <li><a href="https://www.coursera.org/courses?languages=en&query=scala">courses</a></li>
+                    <li><a href="https://pl.wikipedia.org/wiki/Martin_Odersky">Inventor</a></li>
+                    <li><a href="https://kotlinlang.org/">Kotlin</a></li>
+                    <li><a href="http://learnyouahaskell.com/">Golang</a></li>
+                    <li><a href="https://golang.org/">Haskell book</a></li>
+                    <li><a href="http://elm-lang.org/">Elm lang</a></li>
+                </ul>
+            </div>
+
+            <div class="step">
+                <h1>Thank you ;*</h1>
+            </div>
 
     <!-- jquery -->
     <script src="vendor/jquery/jquery-1.11.0.min.js"></script>

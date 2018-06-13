@@ -190,7 +190,7 @@ from pymonet.either import Left, Right
 def divide(divided, divider):
     if divider == 0:
         return Left('can not divide by 0')
-    return Right(divided, divider)
+    return Right(divided / divider)
 
 def handle_error(value):
     print ('error {}'.format(value))
@@ -321,6 +321,9 @@ mapped_applicative = applicative.map(mapper)
 mapped_applicative.fold(side_effect)
 # fn call
 # mapper side effect of 42
+# side effect of 42
+
+mapped_applicative.fold(side_effect)
 # side effect of 42`}
           />
         </Slide>

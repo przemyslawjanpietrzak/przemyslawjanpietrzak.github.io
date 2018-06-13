@@ -56,7 +56,7 @@ export default class Presentation extends React.Component {
             Monadic Error Handling
           </Heading>
           <Text margin="10px 0 0" textColor="tertiary" size={0.25} fit bold>
-            https://przemyslawjanpietrzak.github.io/przemyslawjanpietrzak.github.io//monadic-error-handling/#/step-1
+            https://przemyslawjanpietrzak.github.io/przemyslawjanpietrzak.github.io/monadic-error-handling/dist/#/step-1
           </Text>
         </Slide>
         <Slide transition={["fade"]}>

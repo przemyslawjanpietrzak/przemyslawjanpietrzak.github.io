@@ -56,7 +56,7 @@ export default class Presentation extends React.Component {
             Monadic Error Handling
           </Heading>
           <Text margin="10px 0 0" textColor="tertiary" size={0.25} fit bold>
-            https://przemyslawjanpietrzak.github.io/przemyslawjanpietrzak.github.io/monadic-error-handling/dist/#/step-1
+            https://przemyslawjanpietrzak.github.io/przemyslawjanpietrzak.github.io/monadic-error-handling/dist
           </Text>
         </Slide>
         <Slide transition={["fade"]}>
@@ -333,7 +333,7 @@ mapped_lazy.fold(side_effect)
             <TableRow>
               <TableItem>
                 <Heading size={6} textColor="secondary" caps>
-                  Morea Lazy
+                  More Lazy
                 </Heading>
               </TableItem>
             </TableRow>
@@ -457,15 +457,15 @@ applicative.ap(Maybe.of(42)) # Maybe[]
             Links
           </Heading>
           <List>
-            <ListItem>https://github.com/przemyslawjanpietrzak/pyMonet</ListItem>
-            <ListItem>https://github.com/fantasyland/fantasy-land</ListItem>
-            <ListItem>https://egghead.io/courses/professor-frisby-introduces-composable-functional-javascript</ListItem>
-            <ListItem>https://github.com/DrBoolean/immutable-ext</ListItem>
-            <ListItem>http://www.vavr.io/</ListItem>
-            <ListItem>https://github.com/FormidableLabs/spectacle (for presentatnion)</ListItem>
+            <ListItem textSize="15">https://github.com/przemyslawjanpietrzak/pyMonet</ListItem>
+            <ListItem textSize="15">https://github.com/fantasyland/fantasy-land</ListItem>
+            <ListItem textSize="15">https://egghead.io/courses/professor-frisby-introduces-composable-functional-javascript</ListItem>
+            <ListItem textSize="15">https://github.com/DrBoolean/immutable-ext</ListItem>
+            <ListItem textSize="15">http://www.vavr.io/</ListItem>
+            <ListItem textSize="15">https://github.com/FormidableLabs/spectacle (for presentatnion)</ListItem>
           </List>
         </Slide>
-        <Slide transition={["zoom"]} bgColor="primary">
+        <Slide transition={["fade"]} bgColor="primary">
           <Heading
             size={1}
             fit

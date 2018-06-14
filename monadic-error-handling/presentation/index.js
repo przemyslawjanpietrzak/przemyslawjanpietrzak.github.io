@@ -228,7 +228,7 @@ from pymonet.either import Left, Right
 
 divide(42, 1)
     .map(lambda value: value + 1)
-    .bind(lambda value: divide(42, value))
+    .bind(lambda value: divide(43, value))
     .case(error=handle_error, success=handle_success)
 # success 1
 
@@ -303,7 +303,7 @@ find_something(41).get_or_else(0)  # 0`}
             lang="python"
             theme="light"
             source={`
-from pymonet.applicative import Applicative
+from pymonet.lazy import Lazy
 
 def fn():
     print('fn call')
@@ -316,15 +316,15 @@ def mapper(value):
 def side_effect(value):
     print('side effect of ' + value)
 
-applicative = Applicative(fn)
-mapped_applicative = applicative.map(mapper)
-mapped_applicative.fold(side_effect)
+lazy = Lazy(fn)
+mapped_lazy = lazy.map(mapper)
+mapped_lazy.fold(side_effect)
 # fn call
 # mapper side effect of 42
-# side effect of 42
+# side effect of 43
 
-mapped_applicative.fold(side_effect)
-# side effect of 42`}
+mapped_lazy.fold(side_effect)
+# side effect of 43`}
           />
         </Slide>
 
@@ -434,7 +434,8 @@ applicative.ap(Maybe.of(42)) # Maybe[]
             Why?
           </Heading>
           <List>
-            <ListItem>Less sxceptions</ListItem>
+            <ListItem>Less exceptions</ListItem>
+            <ListItem>More expressive</ListItem>
             <ListItem>More modular</ListItem>
             <ListItem>More testable</ListItem>
             <ListItem>Immutable</ListItem>
@@ -457,10 +458,24 @@ applicative.ap(Maybe.of(42)) # Maybe[]
           </Heading>
           <List>
             <ListItem>https://github.com/przemyslawjanpietrzak/pyMonet</ListItem>
+            <ListItem>https://github.com/fantasyland/fantasy-land</ListItem>
             <ListItem>https://egghead.io/courses/professor-frisby-introduces-composable-functional-javascript</ListItem>
+            <ListItem>https://github.com/DrBoolean/immutable-ext</ListItem>
             <ListItem>http://www.vavr.io/</ListItem>
             <ListItem>https://github.com/FormidableLabs/spectacle (for presentatnion)</ListItem>
           </List>
+        </Slide>
+        <Slide transition={["zoom"]} bgColor="primary">
+          <Heading
+            size={1}
+            fit
+            caps
+            lineHeight={1}
+            size={3}
+            textColor="secondary"
+          >
+           Thank You ;*
+          </Heading>
         </Slide>
       </Deck>
     );

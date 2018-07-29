@@ -1,6 +1,6 @@
 // Import React
 import React from "react";
-import screen1 from '../assets/screen1.png';
+import screen1 from "../assets/screen1.png";
 // Import Spectacle Core tags
 import {
   Deck,
@@ -9,9 +9,6 @@ import {
   ListItem,
   List,
   Image,
-  Table,
-  TableRow,
-  TableItem,
   Slide,
   Text
 } from "spectacle";
@@ -52,7 +49,7 @@ export default class Presentation extends React.Component {
             size={3}
             textColor="secondary"
           >
-            Offline web apps - with a service worker 
+            Offline web apps - with a service worker
           </Heading>
           <Text margin="10px 0 0" textColor="tertiary" size={0.25} fit bold>
             https://przemyslawjanpietrzak.github.io/przemyslawjanpietrzak.github.io/offline-web-apps/dist
@@ -60,7 +57,7 @@ export default class Presentation extends React.Component {
         </Slide>
 
         <Slide transition={["fade"]}>
-          <Image src={screen1} height="500"/>
+          <Image src={screen1} height="500" />
         </Slide>
 
         <Slide transition={["fade"]}>
@@ -84,10 +81,33 @@ module.exports = {
     urlPattern: /this\\.is\\.a\\.regex/,
     handler: 'networkFirst'
   }]
-};`
-          }
+};`}
           />
         </Slide>
+
+        <Slide transition={["fade"]}>
+          <Heading size={6} textColor="secondary" caps>
+            Service worker precache
+          </Heading>
+          <CodePane
+            lang="javascript"
+            theme="light"
+            source={`
+// sw.js
+let precacheConfig = [
+  ["background.jpg","eb661a7bfd811daa1ffefe7d527333ab"],
+  ['index.js', 'eb661a7bfd811daa1ffefe7d527333ab'],
+  ['sw.js', 'eb661a7bfd811daa1ffefe7d527333ab'],
+  ['index.html', 'eb661a7bfd811daa1ffefe7d527333ab'],
+  ['fonts.css', 'eb661a7bfd811daa1ffefe7d527333ab'],
+  ['material.css', 'eb661a7bfd811daa1ffefe7d527333ab'],
+  ['material.min.js', 'eb661a7bfd811daa1ffefe7d527333ab'],
+  ['material.indigo-pink.min.css', 'eb661a7bfd811daa1ffefe7d527333ab'],
+  ['flUhRq6tzZclQEJ-Vdg-IuiaDsNcIhQ8tQ.woff2', 'eb661a7bfd811daa1ffefe7d527333ab'],
+];`}
+          />
+        </Slide>
+
         <Slide transition={["fade"]}>
           <Heading size={6} textColor="secondary" caps>
             Cache static files
@@ -99,7 +119,7 @@ module.exports = {
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches
-      .open(cacheName)
+      .open(staticFilesCacheName)
       .then(cache => setOfCachedUrls(cache))
       .then(cachedUrls => Promise.all(
           Array.from(urlsToCacheKeys.values()).map((cacheKey) => {
@@ -118,13 +138,10 @@ self.addEventListener('install', (event) => {
       ))
     .then(() => self.skipWaiting())
   )
-});`
-          }/>
+});`}
+          />
         </Slide>
 
-      
-
-        
         <Slide transition={["fade"]}>
           <Heading size={6} textColor="secondary" caps>
             On fetch
@@ -140,7 +157,7 @@ self.addEventListener('fetch', (event) => {
       if (shouldRespond) {
           event.respondWith(
             caches
-                .open(cacheName)
+                .open(staticFilesCacheName)
                 .then((cache) => cache.match(urlsToCacheKeys.get(url)))
                 .then((response) => {
                     if (response) {
@@ -152,12 +169,16 @@ self.addEventListener('fetch', (event) => {
       }
 
   }
-});`
-          }/>
+});`}
+          />
+        </Slide>
+        <Slide transition={["fade"]}>
+          <Heading size={6} textColor="secondary" caps>
+            Demo
+          </Heading>
         </Slide>
 
-
-         <Slide transition={["fade"]}>
+        <Slide transition={["fade"]}>
           <Heading size={6} textColor="secondary" caps>
             Cache API
           </Heading>
@@ -186,11 +207,17 @@ if (event.request.url.includes('/api/')) {
           .then(_ => createResponse)
         );
     }));
-}`
-          }/>
+}`}
+          />
         </Slide>
 
-                 <Slide transition={["fade"]}>
+        <Slide transition={["fade"]}>
+          <Heading size={6} textColor="secondary" caps>
+            Demo
+          </Heading>
+        </Slide>
+
+        <Slide transition={["fade"]}>
           <Heading size={6} textColor="secondary" caps>
             Invalidate cache idb
           </Heading>
@@ -207,7 +234,7 @@ const fetchAndSaveAPIRequest = request => fetch(event.request)
         .then(_ => createResponse(response))
     );
 
-if (event.request.url.includes('/painting/')) {
+if (event.request.url.includes('/api/')) {
     event.respondWith(idbClient
       .keys()
       .then(keys => {
@@ -223,18 +250,11 @@ if (event.request.url.includes('/painting/')) {
         }
         return fetchAndSaveAPIRequest(event.request);
       }));
-  }`
-          }/>
+  }`}
+          />
         </Slide>
 
-         <Slide transition={["fade"]}>
-          <Heading size={6} textColor="secondary" caps>
-            Demo
-          </Heading>
-        </Slide>
-
-
-             <Slide transition={["fade"]}>
+        <Slide transition={["fade"]}>
           <Heading size={6} textColor="secondary" caps>
             refresh data
           </Heading>
@@ -258,45 +278,96 @@ self.addEventListener('activate', (event) => {
       ))
       .then(() => self.clients.claim())
   );
-});`
-          }/>
+});`}
+          />
         </Slide>
 
+        <Slide transition={["fade"]}>
+          <Heading size={6} textColor="secondary" caps>
+            Lie-fi
+          </Heading>
+          <CodePane
+            lang="javascript"
+            theme="light"
+            source={`
+self.addEventListener('fetch', (event) => {
+  event.respondWith(Promise(resolve => {
+    setTimeout(() => {
+      getFromCache.then(resolve)
+    }, TIMEOUT)
+
+    fetch(url).then(resolve)
+  })
+
+  )
+});`}
+          />
+        </Slide>
+
+        <Slide transition={["fade"]}>
+          <Heading size={6} textColor="secondary" caps>
+            Check network status
+          </Heading>
+          <CodePane
+            lang="javascript"
+            theme="light"
+            source={`
+if (navigator.onLine) {
+  console.log('online');
+} else {
+  console.log('offline');
+}
+
+window.addEventListener('offline', _ => { console.log('offline'); });
+window.addEventListener('online', _ => { console.log('online'); });
+`}
+          />
+        </Slide>
+
+        <Slide transition={["fade"]}>
+          <Heading size={6} textColor="secondary" caps>
+            Webpack helpers
+          </Heading>
+          <CodePane
+            lang="javascript"
+            theme="light"
+            source={`
+// webpack.config.js
+{ 
+  loader: 'string-replace-loader',
+  options: {
+  multiple: [
+    {
+      search: '__SW_STATIC_HASH__',
+      replace: staticHash
+    },
+    {
+      search: '__SW_API_HASH__',
+      replace: apiHash
+    }
+  ]
+}
+`}
+          />
+        </Slide>
 
         <Slide transition={["fade"]} bgColor="primary" textColor="tertiary">
           <Heading size={6} textColor="secondary" caps>
-            Why?
+            Conclusion
           </Heading>
-          <List>
-            <ListItem>Less exceptions</ListItem>
-            <ListItem>More expressive</ListItem>
-            <ListItem>More modular</ListItem>
-            <ListItem>More testable</ListItem>
-            <ListItem>Immutable</ListItem>
-          </List>
         </Slide>
-        <Slide transition={["fade"]} bgColor="primary" textColor="tertiary">
-          <Heading size={6} textColor="secondary" caps>
-            How?
-          </Heading>
-          <List>
-            <ListItem>Composable Functional JavaScript</ListItem>
-            <ListItem>JavaScript: fantasy-land, immutable-ext</ListItem>
-            <ListItem>Java: vavr.io</ListItem>
-            <ListItem>Python: OSlash, pyMonet</ListItem>
-          </List>
-        </Slide>
+
         <Slide transition={["fade"]} bgColor="primary" textColor="tertiary">
           <Heading size={6} textColor="secondary" caps>
             Links
           </Heading>
           <List>
-            <ListItem textSize="15">https://github.com/przemyslawjanpietrzak/pyMonet</ListItem>
-            <ListItem textSize="15">https://github.com/fantasyland/fantasy-land</ListItem>
-            <ListItem textSize="15">https://egghead.io/courses/professor-frisby-introduces-composable-functional-javascript</ListItem>
-            <ListItem textSize="15">https://github.com/DrBoolean/immutable-ext</ListItem>
-            <ListItem textSize="15">http://www.vavr.io/</ListItem>
-            <ListItem textSize="15">https://github.com/FormidableLabs/spectacle (for presentatnion)</ListItem>
+            <ListItem textSize="15">
+              https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API
+            </ListItem>
+            <ListItem textSize="15">
+              https://github.com/GoogleChromeLabs/sw-precache
+            </ListItem>
           </List>
         </Slide>
         <Slide transition={["fade"]} bgColor="primary">
@@ -308,7 +379,7 @@ self.addEventListener('activate', (event) => {
             size={3}
             textColor="secondary"
           >
-           Thank You ;*
+            Thank You ;*
           </Heading>
         </Slide>
       </Deck>

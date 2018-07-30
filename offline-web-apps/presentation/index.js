@@ -72,8 +72,9 @@ export default class Presentation extends React.Component {
 [
   ['background.jpg','__STATIC_FILE_HASH__'],
   ['app.js', '__STATIC_FILE_HASH__'],
+  ['style.css', '__STATIC_FILE_HASH__'],
   ['index.html', '__STATIC_FILE_HASH__'],
-  ['sw.js', '__STATIC_FILE_HASH__'],
+  ['manifest.json', '__STATIC_FILE_HASH__'],
 ];`}
           />
         </Slide>
@@ -148,12 +149,17 @@ self.addEventListener('fetch', (event) => {
           <Heading size={6} textColor="secondary" caps>
             Index DB ORM
           </Heading>
+        </Slide>
+
+
+
+        <Slide transition={["fade"]}>
+         
           <CodePane
             lang="javascript"
             theme="light"
             source={`
   import idb from 'idb';
-
   export const idbFactory = storeKey => {  
     const dbPromise = idb.open(\`\${storeKey}-store\`, 1, upgradeDB => {
       upgradeDB.createObjectStore(storeKey);
@@ -168,14 +174,12 @@ self.addEventListener('fetch', (event) => {
       },
       set(key, val) {
         return dbPromise.then(db => {
-          const tx = db.transaction(storeKey, 'readwrite');
           tx.objectStore(storeKey).put(val, key);
           return tx.complete;
         });
       },
       delete(key) {
         return dbPromise.then(db => {
-          const tx = db.transaction(storeKey, 'readwrite');
           tx.objectStore(storeKey).delete(key);
           return tx.complete;
         });
@@ -185,14 +189,12 @@ self.addEventListener('fetch', (event) => {
           const tx = db.transaction(storeKey);
           const keys = [];
           const store = tx.objectStore(storeKey);
-  
-          (store.iterateKeyCursor || store.iterateCursor).call(store, cursor => {
+            (store.iterateKeyCursor || store.iterateCursor).call(store, cursor => {
             if (!cursor) return;
             keys.push(cursor.key);
             cursor.continue();
           });
-  
-          return tx.complete.then(() => keys);
+            return tx.complete.then(() => keys);
         });
       }
     }
@@ -277,7 +279,7 @@ if (event.request.url.includes('/api/')) {
           />
         </Slide>
 
-        <Slide transition={["fade"]}>
+        {/* <Slide transition={["fade"]}>
           <Heading size={6} textColor="secondary" caps>
             Lie-fi
           </Heading>
@@ -297,7 +299,7 @@ self.addEventListener('fetch', (event) => {
   )
 });`}
           />
-        </Slide>
+        </Slide> */}
 
         <Slide transition={["fade"]}>
           <Heading size={6} textColor="secondary" caps>
@@ -351,6 +353,8 @@ self.addEventListener('activate', (event) => {
             lang="javascript"
             theme="light"
             source={`
+const webPush = require('web-push');
+
 subscriptions.forEach(sub => {
   const payload = JSON.stringify({ title: 'new-version' });
 
@@ -385,7 +389,7 @@ self.addEventListener('push', e => {
 
         <Slide transition={["fade"]}>
           <Heading size={6} textColor="secondary" caps>
-            On push
+            Subscribe
           </Heading>
           <CodePane
             lang="javascript"
@@ -420,7 +424,7 @@ if ('serviceWorker' in navigator) {
 
 
 
-        <Slide transition={["fade"]}>
+        {/* <Slide transition={["fade"]}>
           <Heading size={6} textColor="secondary" caps>
             Check network status
           </Heading>
@@ -438,9 +442,9 @@ window.addEventListener('offline', _ => { console.log('offline'); });
 window.addEventListener('online', _ => { console.log('online'); });
 `}
           />
-        </Slide>
+        </Slide> */}
 
-        <Slide transition={["fade"]}>
+        {/* <Slide transition={["fade"]}>
           <Heading size={6} textColor="secondary" caps>
             Webpack helpers
           </Heading>
@@ -465,7 +469,7 @@ window.addEventListener('online', _ => { console.log('online'); });
 }
 `}
           />
-        </Slide>
+        </Slide> */}
 
         <Slide transition={["fade"]} bgColor="primary" textColor="tertiary">
           <Heading size={6} textColor="secondary" caps>
@@ -484,6 +488,15 @@ window.addEventListener('online', _ => { console.log('online'); });
             <ListItem textSize="15">
               https://github.com/GoogleChromeLabs/sw-precache
             </ListItem>
+            <ListItem textSize="15">
+              https://github.com/web-push-libs/web-push
+            </ListItem>
+            <ListItem textSize="15">
+              https://serviceworke.rs/
+
+            </ListItem>
+
+
           </List>
         </Slide>
         <Slide transition={["fade"]} bgColor="primary">

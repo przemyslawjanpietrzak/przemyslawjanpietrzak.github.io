@@ -62,48 +62,18 @@ export default class Presentation extends React.Component {
 
         <Slide transition={["fade"]}>
           <Heading size={6} textColor="secondary" caps>
-            Service worker precache
-          </Heading>
-          <CodePane
-            lang="javascript"
-            theme="light"
-            source={`
-// sw-precache.config.js
-module.exports = {
-  staticFileGlobs: [
-    'static/css/**.css',
-    'static/**.html',
-    'static/images/**.*',
-    'static/js/**.js'
-  ],
-  stripPrefix: 'static/',
-  runtimeCaching: [{
-    urlPattern: /this\\.is\\.a\\.regex/,
-    handler: 'networkFirst'
-  }]
-};`}
-          />
-        </Slide>
-
-        <Slide transition={["fade"]}>
-          <Heading size={6} textColor="secondary" caps>
-            Service worker precache
+            Static files cache
           </Heading>
           <CodePane
             lang="javascript"
             theme="light"
             source={`
 // sw.js
-let precacheConfig = [
-  ["background.jpg","eb661a7bfd811daa1ffefe7d527333ab"],
-  ['index.js', 'eb661a7bfd811daa1ffefe7d527333ab'],
-  ['sw.js', 'eb661a7bfd811daa1ffefe7d527333ab'],
-  ['index.html', 'eb661a7bfd811daa1ffefe7d527333ab'],
-  ['fonts.css', 'eb661a7bfd811daa1ffefe7d527333ab'],
-  ['material.css', 'eb661a7bfd811daa1ffefe7d527333ab'],
-  ['material.min.js', 'eb661a7bfd811daa1ffefe7d527333ab'],
-  ['material.indigo-pink.min.css', 'eb661a7bfd811daa1ffefe7d527333ab'],
-  ['flUhRq6tzZclQEJ-Vdg-IuiaDsNcIhQ8tQ.woff2', 'eb661a7bfd811daa1ffefe7d527333ab'],
+[
+  ['background.jpg','__STATIC_FILE_HASH__'],
+  ['app.js', '__STATIC_FILE_HASH__'],
+  ['index.html', '__STATIC_FILE_HASH__'],
+  ['sw.js', '__STATIC_FILE_HASH__'],
 ];`}
           />
         </Slide>
@@ -117,27 +87,23 @@ let precacheConfig = [
             theme="light"
             source={`
 self.addEventListener('install', (event) => {
-  event.waitUntil(
-    caches
-      .open(staticFilesCacheName)
-      .then(cache => setOfCachedUrls(cache))
-      .then(cachedUrls => Promise.all(
-          Array.from(urlsToCacheKeys.values()).map((cacheKey) => {
-            if (!cachedUrls.has(cacheKey)) {
-              const request = new Request(cacheKey, {credentials: 'same-origin'});
-              return fetch(request).then((response) => {
-                if (!response.ok) {
-                  throw new Error(\`Request for \${cacheKey} returned a response with status  \${response.status}\`);
-                }
+  event.waitUntil(async () => {
+    const cache = await caches.open(STATIC_FILES_CACHE_NAME);
+    const cachedUrls = await setOfCachedUrls(cache);
+    return Promise.all(
+      Array.from(cachedUrls.values()).map(async (cacheKey) => {
+        if (!cachedUrls.has(cacheKey)) {
+          const request = new Request(cacheKey, { credentials: 'same-origin' });
+          const response = await fetch(request);
+          if (!response.ok) {
+            throw new Error();
+          }
 
-                return cleanResponse(response)
-                  .then(responseToCache => cache.put(cacheKey, responseToCache));
-              });
-            }
-          })
-      ))
-    .then(() => self.skipWaiting())
-  )
+          return cache.put(cacheKey, response);
+        }
+      })
+    );
+  });
 });`}
           />
         </Slide>
@@ -151,31 +117,88 @@ self.addEventListener('install', (event) => {
             theme="light"
             source={`
 self.addEventListener('fetch', (event) => {
-  if (['GET', 'OPTIONS'].includes(event.request.method)) {
-      const { url } = event.request;
-      const shouldRespond = urlsToCacheKeys.has(url);
-      if (shouldRespond) {
-          event.respondWith(
-            caches
-                .open(staticFilesCacheName)
-                .then((cache) => cache.match(urlsToCacheKeys.get(url)))
-                .then((response) => {
-                    if (response) {
-                        return response;
-                    }
-                    throw Error('The cached response that was expected is missing.');
-                }).catch(_ => fetch(event.request))
-            );
-      }
-
+  if (['POST', 'PUT', 'DELETE'].includes(event.request.method)) {
+    return;
   }
-});`}
+  const { url } = event.request;
+  event.respondWith(
+    caches
+      .open(STATIC_FILES_CACHE_NAME)
+      .then((cache) => cache.match(urlsToCacheKeys.get(url)))
+      .then((response) => {
+        if (response) {
+          return response;
+        }
+        throw Error('The cached response that was expected is missing.');
+      }).catch(_ => fetch(event.request))
+  );
+
+});
+            `}
           />
         </Slide>
         <Slide transition={["fade"]}>
           <Heading size={6} textColor="secondary" caps>
             Demo
           </Heading>
+        </Slide>
+
+
+        <Slide transition={["fade"]}>
+          <Heading size={6} textColor="secondary" caps>
+            Index DB ORM
+          </Heading>
+          <CodePane
+            lang="javascript"
+            theme="light"
+            source={`
+  import idb from 'idb';
+
+  export const idbFactory = storeKey => {  
+    const dbPromise = idb.open(\`\${storeKey}-store\`, 1, upgradeDB => {
+      upgradeDB.createObjectStore(storeKey);
+    });
+  
+    return {
+      get(key) {
+        return dbPromise.then(db => {
+          return db.transaction(storeKey)
+            .objectStore(storeKey).get(key);
+        });
+      },
+      set(key, val) {
+        return dbPromise.then(db => {
+          const tx = db.transaction(storeKey, 'readwrite');
+          tx.objectStore(storeKey).put(val, key);
+          return tx.complete;
+        });
+      },
+      delete(key) {
+        return dbPromise.then(db => {
+          const tx = db.transaction(storeKey, 'readwrite');
+          tx.objectStore(storeKey).delete(key);
+          return tx.complete;
+        });
+      },
+      keys() {
+        return dbPromise.then(db => {
+          const tx = db.transaction(storeKey);
+          const keys = [];
+          const store = tx.objectStore(storeKey);
+  
+          (store.iterateKeyCursor || store.iterateCursor).call(store, cursor => {
+            if (!cursor) return;
+            keys.push(cursor.key);
+            cursor.continue();
+          });
+  
+          return tx.complete.then(() => keys);
+        });
+      }
+    }
+  };
+  `}
+          />
         </Slide>
 
         <Slide transition={["fade"]}>
@@ -190,23 +213,21 @@ const createResponse = obj => new Response(JSON.stringify(obj), {
   headers: {'Content-Type': 'application/json'}
 });
 
-
 if (event.request.url.includes('/api/')) {
-  event.respondWith(idbClient
-    .keys()
-    .then(keys => {
-      if (keys.includes(event.request.url)) {
-        return idbClient
-          .get(event.request.url)
-          .then(createResponse);
-      }
-      return fetch(event.request)
-        .then(r => r.json())
-        .then(r => idbClient
-          .set(event.request.url, r)
-          .then(_ => createResponse)
-        );
-    }));
+  event.respondWith(async () => {
+    const keys = await idbClient.keys();
+    if (keys.includes(event.request.url)) {
+      return idbClient
+        .get(event.request.url)
+        .then(createResponse);
+    }
+    return fetch(event.request)
+      .then(r => r.json())
+      .then(r => idbClient
+        .set(event.request.url, r)
+        .then(_ => createResponse)
+      );
+  });
 }`}
           />
         </Slide>
@@ -227,30 +248,54 @@ if (event.request.url.includes('/api/')) {
             source={`
 const REQUEST_CACHE_LIFETIME = 60 * 60 * 1000;
 
-const fetchAndSaveAPIRequest = request => fetch(event.request)
-    .then(r => r.json())
-    .then(response => idbClient
-        .set(event.request.url, { response, timestamp: now() + REQUEST_CACHE_LIFETIME })
-        .then(_ => createResponse(response))
-    );
+const fetchAndSaveAPIRequest = async (request) => {
+  const response = await fetch(event.request)
+  const parsedResponse = await response.json();
+  await idbClient.set(request.url, {
+    response: parsedResponse,
+    timestamp: Date.now() + REQUEST_CACHE_LIFETIME
+  });
+  return createResponse(response);
+}
 
 if (event.request.url.includes('/api/')) {
-    event.respondWith(idbClient
-      .keys()
-      .then(keys => {
-        if (keys.includes(event.request.url)) {
-          return idbClient  
-            .get(event.request.url)
-            .then(({ response, timestamp }) => {
-              if (timestamp > now() || !navigator.onLine) {
-                return createResponse(response);
-              }
-              return fetchAndSaveAPIRequest(event.request);
-            });
-        }
-        return fetchAndSaveAPIRequest(event.request);
-      }));
-  }`}
+  event.respondWith(async () => {
+    const keys = await idbClient.keys()
+    if (keys.includes(event.request.url)) {
+      return idbClient  
+        .get(event.request.url)
+        .then(({ response, timestamp }) => {
+          if (timestamp > Date.now() || !navigator.onLine) {
+            return createResponse(response);
+          }
+          return fetchAndSaveAPIRequest(event.request);
+        });
+    }
+    return fetchAndSaveAPIRequest(event.request);
+  });
+}`}
+          />
+        </Slide>
+
+        <Slide transition={["fade"]}>
+          <Heading size={6} textColor="secondary" caps>
+            Lie-fi
+          </Heading>
+          <CodePane
+            lang="javascript"
+            theme="light"
+            source={`
+self.addEventListener('fetch', (event) => {
+  event.respondWith(Promise(resolve => {
+    setTimeout(() => {
+      getFromCache.then(resolve)
+    }, TIMEOUT)
+
+    fetch(url).then(resolve)
+  })
+
+  )
+});`}
           />
         </Slide>
 
@@ -282,27 +327,98 @@ self.addEventListener('activate', (event) => {
           />
         </Slide>
 
-        <Slide transition={["fade"]}>
+
+         <Slide transition={["fade"]}>
           <Heading size={6} textColor="secondary" caps>
-            Lie-fi
+            New version
+          </Heading>
+        </Slide>
+
+
+         <Slide transition={["fade"]}>
+          <Heading size={6} textColor="secondary" caps>
+            Demo
+          </Heading>
+
+        </Slide>
+
+
+         <Slide transition={["fade"]}>
+          <Heading size={6} textColor="secondary" caps>
+            Push service
           </Heading>
           <CodePane
             lang="javascript"
             theme="light"
             source={`
-self.addEventListener('fetch', (event) => {
-  event.respondWith(Promise(resolve => {
-    setTimeout(() => {
-      getFromCache.then(resolve)
-    }, TIMEOUT)
+subscriptions.forEach(sub => {
+  const payload = JSON.stringify({ title: 'new-version' });
 
-    fetch(url).then(resolve)
-  })
-
-  )
+  webPush
+    .sendNotification(sub, payload)
 });`}
           />
+
         </Slide>
+
+         <Slide transition={["fade"]}>
+          <Heading size={6} textColor="secondary" caps>
+            On push
+          </Heading>
+          <CodePane
+            lang="javascript"
+            theme="light"
+            source={`
+// sw.js
+
+self.addEventListener('push', e => {
+  const { title } = e.data.json();
+  self.registration
+    .showNotification(title, {
+      body: 'new version is available',
+    });
+  self.registration.update();
+})`}
+          />
+
+        </Slide>
+
+        <Slide transition={["fade"]}>
+          <Heading size={6} textColor="secondary" caps>
+            On push
+          </Heading>
+          <CodePane
+            lang="javascript"
+            theme="light"
+            source={`
+const send = async () => {
+  const register = await navigator.serviceWorker.register('sw.js', {
+    scope: '/'
+  });
+
+  const subscription = await register.pushManager.subscribe({
+    userVisibleOnly: true,
+    applicationServerKey: urlBase64ToUint8Array(publicKey),
+  });
+
+  await fetch('/ps/subscribe', {
+    method: 'POST',
+    body: JSON.stringify(subscription),
+    headers: {
+      'content-type': 'application/json'
+    }
+  });
+}
+
+if ('serviceWorker' in navigator) {
+  send()
+    .catch(err => console.error(err))
+}`}
+          />
+
+        </Slide>
+
+
 
         <Slide transition={["fade"]}>
           <Heading size={6} textColor="secondary" caps>

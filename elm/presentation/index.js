@@ -1,6 +1,11 @@
 // Import React
 import React from "react";
 import cons from "../assets/cons.png";
+import elm1 from "../assets/elm1.png";
+import elm2 from "../assets/elm2.0.png";
+import elm3 from "../assets/elm3.0.png";
+import elm4 from "../assets/elm4.png";
+import intro from "../assets/intro.png";
 // Import Spectacle Core tags
 import {
   Deck,
@@ -66,19 +71,23 @@ export default class Presentation extends React.Component {
         </Slide>
 
         <Slide transition={["fade"]}>
-          <Image src={cons} height="500" />
+          <Image src={elm1} height="500" />
         </Slide>
 
         <Slide transition={["fade"]}>
-          <Image src={cons} height="500" />
+          <Image src={elm2} height="500" />
         </Slide>
 
         <Slide transition={["fade"]}>
-          <Image src={cons} height="500" />
+          <Image src={elm3} height="500" />
         </Slide>
 
         <Slide transition={["fade"]}>
-          <Image src={cons} height="500" />
+          <Image src={elm4} height="500" />
+        </Slide>
+
+        <Slide transition={["fade"]}>
+          <Image src={intro} height="500" />
         </Slide>
 
         <Slide transition={["fade"]}>

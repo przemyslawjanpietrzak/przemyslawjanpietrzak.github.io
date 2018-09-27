@@ -21,6 +21,7 @@ import {
   TableHeaderItem,
   TableItem,
   TableRow,
+  Link,
   TableBody,
   Image,
   Slide,
@@ -300,6 +301,7 @@ sumTwo(4)(5) // 9
                     lang="haskell"
                     theme="light"
                     source={`
+sumThree : Int -> Int -> Int -> Int
 sumThree x y z = x + y + z
 -- <function> : number -> number -> number -> number
 
@@ -459,7 +461,16 @@ view model =
             <ListItem>Organized</ListItem>
             <ListItem>Easy debug</ListItem>
             <ListItem>Light and fast</ListItem>
+            <ListItem>Compilator hints</ListItem>
           </List>
+        </Slide>
+        <Slide transition={["fade"]} bgColor="primary" textColor="tertiary">
+          <Heading size={6}  caps textColor="tertiary">
+            "Dobry język nie pozwala Ci pisać dobrego kodu, tylko zabrania pisania złego"
+          </Heading>
+          <span style={{ color: 'black', fontStyle: 'italic', fontWeight: 600 }}>
+            zasłyszane w Fat Bobie
+          </span>
         </Slide>
 
         <Slide transition={["fade"]} bgColor="primary" textColor="tertiary">
@@ -489,11 +500,9 @@ view model =
           <Heading size={6} textColor="secondary" caps>
             ELM architecture in JS
           </Heading>
-          <Text margin="10px 0 0" textColor="tertiary" size={0.25} fit bold>
-            <a href="https://github.com/redux-loop/redux-loop">
-              link
-            </a>
-          </Text>
+          <Link margin="10px 0 0" textColor="tertiary" size={0.25} fit bold  href="https://github.com/redux-loop/redux-loop">
+            link
+          </Link>
 
           <CodePane
             lang="haskell"
@@ -530,11 +539,11 @@ function reducer(state = initialState, action) {
           <Heading size={6} textColor="secondary" caps>
             ELM architecture in Reason
           </Heading>
-          <Text margin="10px 0 0" textColor="tertiary" size={0.25} fit bold>
-            <a href="https://github.com/przemyslawjanpietrzak/rembrandt">
+          <Link margin="10px 0 0" textColor="tertiary" size={0.25} fit bold href="https://github.com/przemyslawjanpietrzak/rembrandt">
+            
               link
-            </a>
-          </Text>
+            
+          </Link>
           <Table>
             <TableBody>
               <TableRow>

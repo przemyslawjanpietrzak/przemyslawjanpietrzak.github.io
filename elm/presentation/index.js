@@ -7,7 +7,9 @@ import elm3 from "../assets/elm3.0.png";
 import elm4 from "../assets/elm4.png";
 import intro from "../assets/intro.png";
 import elmBg from "../assets/elm-bg.png";
-import elmArch from '../assets/elm-arch.png';
+import elmArch from "../assets/alm-arch1.png";
+import jsStack from "../assets/js-stack.png";
+import elmo from "../assets/elmo1.png";
 // Import Spectacle Core tags
 import {
   Deck,
@@ -61,7 +63,7 @@ export default class Presentation extends React.Component {
             size={3}
             textColor="secondary"
           >
-            Forgot everything and learn elm
+            A może by tak rzucić to wszystko i nauczyć się Elma
           </Heading>
           <Text margin="10px 0 0" textColor="tertiary" size={0.25} fit bold>
             https://przemyslawjanpietrzak.github.io/przemyslawjanpietrzak.github.io/elm/dist
@@ -229,7 +231,8 @@ const calculate = (x) => {
                     lang="javascript"
                     theme="light"
                     source={`
-count(filterWarnings(getLinterOutput()))
+
+wc(grep('waring', lint()))
 `}
                   />
                 </TableItem>
@@ -391,9 +394,9 @@ unionFn thing =
 class View extends React.component {
   render() {
     return <div>
-      <button onClick={this.decrement.bind(this)}>+</button>
+      <button onClick={this.decrement.bind(this)}> - </button>
       <div>{ this.model }</div>
-      <button onClick={this.increment.bind(this)}>+</button>
+      <button onClick={this.increment.bind(this)}> + </button>
     </div>
   }
 }
@@ -436,6 +439,221 @@ view model =
             Elm architecture
           </Heading>
           <Image src={elmArch} height="500" />
+        </Slide>
+
+        <Slide transition={["fade"]}>
+          <Heading size={6} textColor="secondary" caps>
+            batteries included
+          </Heading>
+          <Image src={jsStack} height="500" />
+        </Slide>
+
+        <Slide transition={["fade"]} bgColor="primary" textColor="tertiary">
+          <Heading size={6} textColor="secondary" caps>
+            Why elm?
+          </Heading>
+          <List>
+            <ListItem>No runtime error</ListItem>
+            <ListItem>Testable</ListItem>
+            <ListItem>Batteries included</ListItem>
+            <ListItem>Organized</ListItem>
+            <ListItem>Easy debug</ListItem>
+            <ListItem>Light and fast</ListItem>
+          </List>
+        </Slide>
+
+        <Slide transition={["fade"]} bgColor="primary" textColor="tertiary">
+          <Heading size={6} textColor="secondary" caps>
+            elmentary dear watson
+          </Heading>
+          <List>
+            <ListItem>
+              <a href="https://www.youtube.com/watch?v=rU-W6557Dos&t=1289s">
+                Why ELM?
+              </a>
+            </ListItem>
+            <ListItem>
+              <a href="https://www.youtube.com/watch?v=IcgmSRJHu_8&t=1057s">
+                Making Impossible States Impossible
+              </a>
+            </ListItem>
+            <ListItem>
+              <a href="https://www.youtube.com/watch?v=jl1tGiUiTtI">
+                Convergent Evolution
+              </a>
+            </ListItem>
+          </List>
+        </Slide>
+
+        <Slide transition={["fade"]} bgColor="primary" textColor="tertiary">
+          <Heading size={6} textColor="secondary" caps>
+            ELM architecture in JS
+          </Heading>
+          <Text margin="10px 0 0" textColor="tertiary" size={0.25} fit bold>
+            <a href="https://github.com/redux-loop/redux-loop">
+              link
+            </a>
+          </Text>
+
+          <CodePane
+            lang="haskell"
+            theme="light"
+            source={`// redux-loop 
+function reducer(state = initialState, action) {
+  switch(action.type) {
+  case 'INIT':
+    return loop(
+      {...state, initStarted: true},
+      Cmd.run(fetchUser, {
+        successActionCreator: userFetchSuccessfulAction,
+        failActionCreator: userFetchFailedAction,
+        args: ['123']
+      })
+    );
+
+  case 'USER_FETCH_SUCCESSFUL':
+    return {...state, user: action.user};
+
+  case 'USER_FETCH_FAILED':
+    return {...state, error: action.error};
+
+  default:
+    return state;
+  }
+}
+
+`}
+          />
+        </Slide>
+
+        <Slide transition={["fade"]} bgColor="primary" textColor="tertiary">
+          <Heading size={6} textColor="secondary" caps>
+            ELM architecture in Reason
+          </Heading>
+          <Text margin="10px 0 0" textColor="tertiary" size={0.25} fit bold>
+            <a href="https://github.com/przemyslawjanpietrzak/rembrandt">
+              link
+            </a>
+          </Text>
+          <Table>
+            <TableBody>
+              <TableRow>
+                <TableItem>
+                  <CodePane
+                    lang="ocaml"
+                    theme="light"
+                    source={` /* rembrandt */ 
+open Rembrandt.Elements;
+type model = int;
+type action =
+  | Add
+  | Sub
+  | Twice;
+
+let update =
+    (model: model, action: action): (model, Command.command('action)) =>
+  switch (action) {
+  | Add => (model + 1, Command.null)
+  | Sub => (model - 1, Command.null)
+  | Twice => (model + 1, Command.action(Add))
+  };
+
+Rembrandt.run(
+  ~model=42,
+  ~update,
+  ~view=
+    (model, dispatch) =>
+      <div>
+        <div id="count"> {string_of_int(model) |> text} </div>
+        <button id="plus" onClick={_ => Add |> dispatch}>
+          {text("+")}
+        </button>
+        <button id="minus" onClick={_ => Sub |> dispatch}>
+          {text("-")}
+        </button>
+        <button id="double" onClick={_ => Twice |> dispatch}>
+          {text("twice +")}
+        </button>
+      </div>,
+  (),
+);
+`}
+                  />
+                </TableItem>
+              </TableRow>
+            </TableBody>
+          </Table>
+        </Slide>
+
+        <Slide transition={["fade"]} bgColor="primary" textColor="tertiary">
+          <Heading size={6} textColor="secondary" caps>
+            Any questions?
+          </Heading>
+        </Slide>
+
+        <Slide transition={["fade"]} bgColor="primary" textColor="tertiary">
+          <Heading size={6} textColor="secondary" caps>
+            CSS in ELM
+          </Heading>
+          <Table>
+            <TableBody>
+              <TableRow>
+                <TableItem>
+                  <CodePane
+                    lang="haskell"
+                    theme="light"
+                    source={`-- elm-css
+logo : Html msg
+logo =
+    img
+        [ src "logo.png"
+        , css
+            [ display inlineBlock
+            , padding (px 20)
+            , border3 (px 5) solid (rgb 120 120 120)
+            , hover
+                [ borderColor theme.primary
+                , borderRadius (px 10)
+                ]
+            ]
+        ]
+        []
+
+`}
+                  />
+                </TableItem>
+                <TableItem>
+                  <CodePane
+                    lang="haskell"
+                    theme="light"
+                    source={`-- elm-stylesheet
+main = myStylesheet : Stylesheet
+myStylesheet =
+  let
+    myClassStyles =
+      newRuleSet
+        |> withSelectors
+          [ Class selectors.myClass ]
+        |> withDeclarations
+          [ ("font-family", FontStack fonts)
+          , ("font-weight", Num weight.normal)
+          , ("font-size", Unit 2 Em)
+          , ("color", Col palette.blue)
+          , ("text-align", Str "center")
+          ]
+`}
+                  />
+                </TableItem>
+              </TableRow>
+            </TableBody>
+          </Table>
+        </Slide>
+
+        <Slide transition={["fade"]} bgColor="primary" textColor="tertiary">
+          <Heading size={6} textColor="secondary" caps>
+            Thank you :*
+          </Heading>
+          <Image src={elmo} height="500" />
         </Slide>
       </Deck>
     );

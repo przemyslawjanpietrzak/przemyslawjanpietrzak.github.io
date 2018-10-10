@@ -20,7 +20,9 @@ import steam from "../assets/steam.png";
 import abstract from "../assets/abstract.png";
 import idea from "../assets/idea.png";
 import graphql1 from "../assets/graphqp1.png";
-import graphene  from '../assets/graphene.png';
+import graph2 from "../assets/graph2.png";
+import graphene from "../assets/graphene.png";
+import espeo from "../assets/espeo.png";
 // Import theme
 import createTheme from "spectacle/lib/themes/default";
 
@@ -49,18 +51,34 @@ export default class Presentation extends React.Component {
         theme={theme}
       >
         <Slide transition={["zoom"]} bgColor="primary">
-          <Heading
-            size={1}
-            fit
-          
-            lineHeight={1}
-            size={3}
-            textColor="secondary"
-          >
+          <Heading size={1} fit lineHeight={1} size={3} textColor="secondary">
             Django i GraphQL
           </Heading>
           <Text margin="10px 0 0" textColor="tertiary" size={0.25} fit bold>
-            https://przemyslawjanpietrzak.github.io/przemyslawjanpietrzak.github.io/elm/django-graphql
+            https://przemyslawjanpietrzak.github.io/przemyslawjanpietrzak.github.io/django-graphql/dist
+          </Text>
+        </Slide>
+
+        <Slide transition={["zoom"]} bgColor="primary">
+          <Image src={espeo} height="200" />
+          <br /> <br /> <br />
+          <Text
+            margin="10px 0 0"
+            style={{ fontSize: "20px" }}
+            textColor="tertiary"
+            size={0.25}
+            bold
+          >
+            https://github.com/przemyslawjanpietrzak/pyMonet
+          </Text>
+          <Text
+            margin="10px 0 0"
+            style={{ fontSize: "20px" }}
+            textColor="tertiary"
+            size={0.25}
+            bold
+          >
+            https://twitter.com/przemyslawjanp
           </Text>
         </Slide>
 
@@ -78,7 +96,6 @@ export default class Presentation extends React.Component {
             `}
           />
         </Slide>
-
         <Slide transition={["fade"]}>
           <Heading size={6} textColor="secondary">
             Backend & Frontend
@@ -96,35 +113,18 @@ export default class Presentation extends React.Component {
             </TableBody>
           </Table>
         </Slide>
-
         <Slide transition={["zoom"]} bgColor="primary">
-          <Heading
-            size={1}
-            fit
-          
-            lineHeight={1}
-            size={3}
-            textColor="secondary"
-          >
+          <Heading size={1} fit lineHeight={1} size={3} textColor="secondary">
             The Dev Estimate - Munch, Edvard (1887)
           </Heading>
           <Image src={idea} height="500" />
         </Slide>
-
         <Slide transition={["zoom"]} bgColor="primary">
-          <Heading
-            size={1}
-            fit
-          
-            lineHeight={1}
-            size={3}
-            textColor="secondary"
-          >
+          <Heading size={1} fit lineHeight={1} size={3} textColor="secondary">
             Graph Query Language
           </Heading>
           <Image src={graphql1} height="500" />
         </Slide>
-
         <Slide transition={["fade"]}>
           <Heading size={6} textColor="secondary">
             Query Syntax
@@ -164,7 +164,6 @@ export default class Presentation extends React.Component {
             </TableBody>
           </Table>
         </Slide>
-
         <Slide transition={["fade"]}>
           <Heading size={6} textColor="secondary">
             Query Syntax #2
@@ -204,7 +203,6 @@ export default class Presentation extends React.Component {
             </TableBody>
           </Table>
         </Slide>
-
         <Slide transition={["fade"]}>
           <Heading size={6} textColor="secondary">
             Query Syntax #3
@@ -250,10 +248,9 @@ export default class Presentation extends React.Component {
             </TableBody>
           </Table>
         </Slide>
-
         <Slide transition={["fade"]}>
           <Heading size={6} textColor="secondary">
-            Query Syntax #3
+            Query Syntax #4
           </Heading>
           <Table>
             <TableBody>
@@ -300,16 +297,22 @@ export default class Presentation extends React.Component {
             </TableBody>
           </Table>
         </Slide>
-
         <Slide transition={["fade"]}>
           <Heading size={6} textColor="secondary">
             Static typing
           </Heading>
 
-          <CodePane
-            lang="graphql"
-            theme="light"
-            source={`type Movie {
+          <Table>
+            <TableBody>
+              <TableRow>
+                <TableItem>
+                  <Image src={graph2} height="200" />
+                </TableItem>
+                <TableItem>
+                  <CodePane
+                    lang="graphql"
+                    theme="light"
+                    source={`type Movie {
   name: String
   rating: Float
   director: Director
@@ -321,9 +324,12 @@ type Actor {
   birthDate: Date
   movies: [Movie]
 }`}
-          />
+                  />
+                </TableItem>
+              </TableRow>
+            </TableBody>
+          </Table>
         </Slide>
-
         <Slide transition={["fade"]}>
           <Heading size={6} textColor="secondary">
             Mutation
@@ -340,21 +346,19 @@ type Actor {
 }`}
           />
         </Slide>
-
-         <Slide transition={["fade"]}>
+        <Slide transition={["fade"]}>
           <Heading size={6} textColor="secondary">
             Lets do it
           </Heading>
 
           <Image src={graphene} height="200" />
 
-
           <CodePane
             lang="python"
             theme="light"
             source={`pip install graphene graphene-django`}
           />
-<hr/>
+          <hr />
           <CodePane
             lang="python"
             theme="light"
@@ -363,7 +367,7 @@ type Actor {
     'graphene_django',
 )`}
           />
-          <hr/>
+          <hr />
           <CodePane
             lang="python"
             theme="light"
@@ -376,10 +380,9 @@ urlpatterns = [
 ]`}
           />
         </Slide>
-
-         <Slide transition={["fade"]}>
-          <Heading size={6} textColor="secondary" >
-            Make graph
+        <Slide transition={["fade"]}>
+          <Heading size={6} textColor="secondary">
+            Make graph great again
           </Heading>
 
           <CodePane
@@ -407,9 +410,8 @@ class Query(graphene.ObjectType):
 schema = graphene.Schema(query=Query)`}
           />
         </Slide>
-
-                 <Slide transition={["fade"]}>
-          <Heading size={6} textColor="secondary" >
+        <Slide transition={["fade"]}>
+          <Heading size={6} textColor="secondary">
             Access
           </Heading>
 
@@ -436,11 +438,147 @@ class Actor(DjangoObjectType):
         except cls._meta.model.DoesNotExist:
             return None
 
-          `}/>
+          `}
+          />
+        </Slide>
+        <Slide transition={["fade"]}>
+          <Heading size={6} textColor="secondary">
+            Custom nodes
+          </Heading>
+
+          <CodePane
+            lang="python"
+            theme="light"
+            source={`import graphene
+
+class Query(graphene.ObjectType):
+    hello = graphene.String(name=graphene.String(default_value="stranger"))
+
+    def resolve_hello(self, info, name):
+        return 'Hello ' + name`}
+          />
+        </Slide>
+        <Slide transition={["fade"]}>
+          <Heading size={6} textColor="secondary">
+            Filter
+          </Heading>
+
+          <CodePane
+            lang="python"
+            theme="light"
+            source={`class ActorNode(DjangoObjectType):
+    class Meta:
+        # Assume you have an Actor model defined with the following fields
+        model = Actor
+        filter_fields = ['firstName', 'lastName', 'birthDate']
+        interfaces = (relay.Node, )
+
+
+class ActorFilter(django_filters.FilterSet):
+    name = django_filters.CharFilter(lookup_expr=['iexact'])
+
+    class Meta:
+        model = Actor
+        fields = ['firstName', 'lastName', 'birthDate']
+
+
+class Query(ObjectType):
+    actor = relay.Node.Field(ActorNode)
+    all_actors = DjangoFilterConnectionField(ActorNode, filterset_class=ActorFilter)`}
+          />
+        </Slide>
+        <Slide transition={["fade"]}>
+          <Heading size={6} textColor="secondary">
+            Mutation node
+          </Heading>
+
+          <CodePane
+            lang="python"
+            theme="light"
+            source={`from graphene_django.rest_framework.mutation import SerializerMutation
+
+class ActorAwesomeMutation(SerializerMutation):
+    class Meta:
+        serializer_class = ActorSerializer`}
+          />
         </Slide>
 
+        <Slide transition={["fade"]}>
+          <Heading size={6} textColor="secondary">
+            Demo
+          </Heading>
+        </Slide>
+        <Slide transition={["fade"]}>
+          <Heading size={6} textColor="secondary">
+            Why?
+          </Heading>
+          <List>
+            <ListItem style={{ fontSize: "21px" }}>Many changes</ListItem>
+            <ListItem style={{ fontSize: "21px" }}>Elastic API</ListItem>
+            <ListItem style={{ fontSize: "21px" }}>
+              len(frontend_power) > len(backend_power)
+            </ListItem>
+            <ListItem style={{ fontSize: "21px" }}>
+              Squash similar endpoint
+            </ListItem>
+            <ListItem style={{ fontSize: "21px" }}>Reduce http calls</ListItem>
+            <ListItem style={{ fontSize: "21px" }}>CVDD</ListItem>
+          </List>
+        </Slide>
+        <Slide transition={["fade"]}>
+          <Heading size={6} textColor="secondary">
+            Why not?
+          </Heading>
+          <List>
+            <ListItem style={{ fontSize: "21px" }}>
+              GraphQL for GraphQL
+            </ListItem>
+            <ListItem style={{ fontSize: "21px" }}>
+              {"len(frontend_power) < len(backend_power)"}
+            </ListItem>
+            <ListItem style={{ fontSize: "21px" }}>Native cache</ListItem>
+            <ListItem style={{ fontSize: "21px" }}>Deadlines</ListItem>
+          </List>
+        </Slide>
 
+        <Slide transition={["fade"]}>
+          <Heading size={6} textColor="secondary">
+            Links
+          </Heading>
+          <List>
+            <ListItem style={{ fontSize: "21px" }}>
+              <a href="https://graphql.org/">GraphQL</a>
+            </ListItem>
+            <ListItem style={{ fontSize: "21px" }}>
+              <a href="https://graphene-python.org/">Graphene</a>
+            </ListItem>
+            <ListItem style={{ fontSize: "21px" }}>
+              <a href="http://docs.graphene-python.org/projects/django/en/latest/">
+                Graphene-Django
+              </a>
+            </ListItem>
 
+            <ListItem style={{ fontSize: "21px" }}>
+              <a href="https://github.com/przemyslawjanpietrzak/pyMonet">
+                pyMonet
+              </a>
+            </ListItem>
+
+            <ListItem style={{ fontSize: "21px" }}>
+              <a href="https://blog.quicktype.io/">quicktype</a>
+            </ListItem>
+
+            <ListItem style={{ fontSize: "21px" }}>
+              <a href="https://github.com/graphql/graphiql">graphiql</a>
+            </ListItem>
+          </List>
+        </Slide>
+
+        <Slide transition={["fade"]}>
+          <Heading size={6} textColor="secondary">
+            Thank you :*
+          </Heading>
+        </Slide>
       </Deck>
     );
   }

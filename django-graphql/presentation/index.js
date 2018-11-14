@@ -23,6 +23,7 @@ import graphql1 from "../assets/graphqp1.png";
 import graph2 from "../assets/graph2.png";
 import graphene from "../assets/graphene.png";
 import espeo from "../assets/espeo.png";
+import graphiQL from "../assets/graphiQL.png";
 // Import theme
 import createTheme from "spectacle/lib/themes/default";
 
@@ -55,7 +56,7 @@ export default class Presentation extends React.Component {
             Django i GraphQL
           </Heading>
           <Text margin="10px 0 0" textColor="tertiary" size={0.25} fit bold>
-            https://przemyslawjanpietrzak.github.io/przemyslawjanpietrzak.github.io/django-graphql/dist
+            https://przemyslawjanpietrzak.github.io/przemyslawjanpietrzak.github.io/django-graphql/
           </Text>
         </Slide>
 
@@ -266,7 +267,8 @@ export default class Presentation extends React.Component {
     movies(name: "Limelight") {
       name
       director {
-        name
+        firstName
+        lastName
       }
     }
   }
@@ -391,13 +393,13 @@ urlpatterns = [
             source={`from graphene_django import DjangoObjectType
 import graphene
 
-class Actor(DjangoObjectType):
+class ActorNode(DjangoObjectType):
     class Meta:
         model = ActorModel
 
 class Query(graphene.ObjectType):
-    actors = graphene.List(Actor)
-    actor = graphene.Field(Actor)
+    actors = graphene.List(ActorNode)
+    actor = graphene.Field(ActorNode)
 
     def resolve_actors(self, info):
         return ActorModel.objects.all()
@@ -505,9 +507,41 @@ class ActorAwesomeMutation(SerializerMutation):
 
         <Slide transition={["fade"]}>
           <Heading size={6} textColor="secondary">
-            Demo
+            GraphiQL - docs + postman
           </Heading>
+          <Image src={graphiQL} height="500" />
         </Slide>
+
+        <Slide transition={["fade"]}>
+          <Heading size={6} textColor="secondary">
+            graphQL schema + Client type system
+          </Heading>
+          <br/>
+          <br/>
+          <CodePane
+            lang="python"
+            theme="light"
+            source={`./manage.py graphql_schema # generate graphQL schema in schema.json`}
+          />
+          <CodePane
+            lang="python"
+            theme="light"
+            source={` npx gql2ts schema.json -o data.d.ts # via gql2ts package generate TypeScript interfaces from schema.json`}
+          />
+          <Text
+            margin="10px 0 0"
+            style={{ fontSize: "20px" }}
+            ł
+            textColor="tertiary"
+            size={0.25}
+            bold
+          >
+          <br/>
+          <br/>
+            Try <a href="https://app.quicktype.io/">quicktype</a> to generate interfaces in other languages (e.g. swift, kotlin)
+          </Text>
+        </Slide>
+
         <Slide transition={["fade"]}>
           <Heading size={6} textColor="secondary">
             Why?

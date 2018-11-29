@@ -1,7 +1,8 @@
 // Import React
 import React from "react";
-import moore from "../assets/moore-machine.png";
 // Import Spectacle Core tags
+import espeo from '../assets/espeo.png';
+import cho from '../assets/chopokodzic.png';
 import {
   Deck,
   Heading,
@@ -60,7 +61,7 @@ export default class Presentation extends React.Component {
         </Slide>
 
         <Slide>
-          <img src="https://espeo.eu/wp-content/themes/newespeo/images/logo.png" />
+          <Image src={espeo} />
         </Slide>
 
          <Slide transition={["fade"]} bgColor="primary" textColor="tertiary">
@@ -120,10 +121,12 @@ done
             Dead code elimination
           </Heading>
           <CodePane
-            lang="python"
+            lang="ts"
             theme="light"
             source={`"noUnusedParameters": true,
-"noUnusedLocals": true,`}
+"noUnusedLocals": true,
+
+const fn = (_unusedArg) => 42 // OK`}
           />
         </Slide>
 
@@ -242,11 +245,14 @@ let scoped; // ERROR
           <Text margin="10px 0 0" size={0.25} bold>
             Make code simple again
           </Text>
+          <br/>
           “parameters-max-number”: [true, 10]
           <br />
           “cognitive-complexity”: [true, 10]
           <br />
           “no-big-function”: [true, 42]
+          <br/>
+          <br/>
           <CodePane
             lang="ts"
             theme="light"
@@ -291,11 +297,11 @@ public complexMethod() {`}
 }
 
 export const fn = (arg: Data['field']) => {
-  return arg.name;
+  return arg.name; // { name: string }
 }
 
 export const fn1 = (name: Data['field']['name']) => {
-  return name;
+  return name; // string
 }`}
           />
         </Slide>
@@ -327,10 +333,10 @@ class Service extends AbstractService {
 }
 
 const service = new Service();
-service.field.push(42);
-service.field = [43];
+service.field.push(42); // OK
+service.field = [43]; // ERROR
 
-const abstractService = new AbstractService();
+const abstractService = new AbstractService(); // ERROR
 
 `}
           />
@@ -443,7 +449,9 @@ type X = DeepReadonlyObject<{ key: string, key1: number }>; // { readonly key: a
             theme="light"
             source={`export type Omit<A extends object, K extends string | number | symbol> = Pick<A, Exclude<keyof A, K>>
 
-type X = Omit<{ key: string, key1: string }, "key"> //  { key1: string; }`}
+type X = Omit<{ key: string, key1: string }, "key"> //  { key1: string; }
+
+type Diff<A extends object, K extends keyof A> = Omit<A, K> & Partial<Pick<A, K>>`}
           />
         </Slide>
 
@@ -474,6 +482,7 @@ type T = Increment<42>`}
         <Slide>
           <Heading size={6} style={{ color: '#f80045'}} textColor="secondary">
            Btw We're hiring!
+           <Image src={cho} />
           </Heading>
 
         </Slide>
@@ -483,14 +492,26 @@ type T = Increment<42>`}
            Links
           </Heading>
           <List>
-            <ListItem textSize="20">https://github.com/SonarSource/SonarTS</ListItem>
-            <ListItem textSize="20">https://github.com/gcanti/typelevel-ts</ListItem>
-            <ListItem textSize="20">https://github.com/mattiamanzati/talks/blob/master/you-may-not-know-typescript/src/index.ts</ListItem>
+            <ListItem textSize="20">
+              <a href="https://github.com/SonarSource/SonarTS">Sonar to TS</a>
+            </ListItem>
+            <ListItem textSize="20">
+              <a href="https://github.com/gcanti/typelevel-ts">TS type utils</a>
+              </ListItem>
+            <ListItem textSize="20">
+              <a href="https://github.com/mattiamanzati/"> Author of code from last slide</a>
+            </ListItem>
+            <ListItem textSize="25">
+              <a href="https://github.com/przemyslawjanpietrzak/RxTowerDefense/blob/develop/tsconfig.json">compiler config</a>
+            </ListItem> 
+            <ListItem textSize="25">
+              <a href="https://github.com/przemyslawjanpietrzak/RxTowerDefense/blob/develop/tslint.json">linter config</a>
+            </ListItem> 
           </List>
         </Slide>
         
         <Slide>
-          <Heading size={6} textColor="secondary">
+          <Heading size={6} style={{ color: '#f80045'}} >
            Thank you :*
           </Heading>
 

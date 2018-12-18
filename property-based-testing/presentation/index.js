@@ -306,7 +306,7 @@ def test_regression(states, input):
             <ListItem textSize="25">https://github.com/HypothesisWorks/hypothesis/tree/master/hypothesis-ruby</ListItem>
             <ListItem textSize="25">https://github.com/HypothesisWorks/hypothesis-java</ListItem>
             <ListItem textSize="25">https://github.com/dubzzz/fast-check</ListItem>
-
+            <ListItem textSize="25">https://github.com/dubzzz/fast-check</ListItem>
           </List>
         </Slide>
 

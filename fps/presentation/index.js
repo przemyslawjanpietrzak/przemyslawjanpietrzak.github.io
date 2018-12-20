@@ -3,10 +3,10 @@ import React from "react";
 // Import Spectacle Core tags
 import fps from "../assets/6D2.gif";
 import dom from "../assets/dom.jpg";
-import recalculate from '../assets/recalcule.jpg';
-import layout from '../assets/layout.jpg';
-import paint from '../assets/paint.jpg';
-import d3 from '../assets/3d.png';
+import recalculate from "../assets/recalcule.jpg";
+import layout from "../assets/layout.jpg";
+import paint from "../assets/paint.jpg";
+import d3 from "../assets/3d.png";
 import {
   Deck,
   Heading,
@@ -83,22 +83,20 @@ export default class Presentation extends React.Component {
           <Text>1s / 60fps = 10-13s/frame</Text>
         </Slide>
 
-
         <Slide transition={["fade"]} bgColor="primary" textColor="tertiary">
           <Heading size={6} style={{ color: "#f80045" }} caps>
-          Parse HTML
+            Parse HTML
           </Heading>
           <Image src={dom} />
         </Slide>
 
-
         <Slide transition={["fade"]} bgColor="primary" textColor="tertiary">
           <Heading size={6} style={{ color: "#f80045" }} caps>
-          Recalculate Styles
+            Recalculate Styles
           </Heading>
           <Image src={recalculate} />
         </Slide>
-        
+
         <Slide transition={["fade"]} bgColor="primary" textColor="tertiary">
           <Heading size={6} style={{ color: "#f80045" }} caps>
             layout
@@ -108,19 +106,19 @@ export default class Presentation extends React.Component {
 
         <Slide transition={["fade"]} bgColor="primary" textColor="tertiary">
           <Heading size={6} style={{ color: "#f80045" }} caps>
-        paint
+            paint
           </Heading>
           <Image src={paint} />
         </Slide>
 
-               <Slide transition={["fade"]} bgColor="primary" textColor="tertiary">
+        <Slide transition={["fade"]} bgColor="primary" textColor="tertiary">
           <Heading size={6} style={{ color: "#f80045" }} caps>
-        Composite
+            Composite
           </Heading>
           <Image src={d3} />
         </Slide>
 
-   <Slide transition={["fade"]} bgColor="primary" textColor="tertiary">
+        <Slide transition={["fade"]} bgColor="primary" textColor="tertiary">
           <Heading size={6} style={{ color: "#f80045" }} caps>
             What?
           </Heading>
@@ -143,18 +141,27 @@ export default class Presentation extends React.Component {
           </List>
         </Slide>
 
-           <Slide transition={["fade"]} bgColor="primary" textColor="tertiary">
+        <Slide transition={["fade"]} bgColor="primary" textColor="tertiary">
           <Heading size={6} style={{ color: "#f80045" }} caps>
             What?
           </Heading>
           <List>
-            <ListItem textSize="35" style={{ color: "#000", textDecoration: 'line-through' }}>
+            <ListItem
+              textSize="35"
+              style={{ color: "#000", textDecoration: "line-through" }}
+            >
               Parse HTML
             </ListItem>
-            <ListItem textSize="35" style={{ color: "#000",  textDecoration: 'line-through' }}>
+            <ListItem
+              textSize="35"
+              style={{ color: "#000", textDecoration: "line-through" }}
+            >
               Recalculate Styles
             </ListItem>
-            <ListItem textSize="35" style={{ color: "#000",  textDecoration: 'line-through' }}>
+            <ListItem
+              textSize="35"
+              style={{ color: "#000", textDecoration: "line-through" }}
+            >
               Layout (!)
             </ListItem>
             <ListItem textSize="35" style={{ color: "#000" }}>
@@ -166,12 +173,51 @@ export default class Presentation extends React.Component {
           </List>
         </Slide>
 
-         <Slide>
+        <Slide>
           <Heading size={6} style={{ color: "#f80045" }}>
             Demo
           </Heading>
         </Slide>
 
+        <Slide>
+          <Heading size={6} style={{ color: "#f80045" }}>
+            transform >> [top, left, hight, widht]
+          </Heading>
+        </Slide>
+
+        <Slide>
+          <Heading size={6} style={{ color: "#f80045" }}>
+            Scripting
+          </Heading>
+          <List>
+            <ListItem
+              textSize="35"
+              style={{ color: "#000", }}
+            >
+              Make it async
+            </ListItem>
+
+            <ListItem
+              textSize="35"
+              style={{ color: "#000", }}
+            >
+              Cache it
+            </ListItem>
+
+            <ListItem
+              textSize="35"
+              style={{ color: "#000", }}
+            >
+              Web workers
+            </ListItem>
+            <ListItem
+              textSize="35"
+              style={{ color: "#000", }}
+            >
+              WASM (?)
+            </ListItem>
+          </List>
+        </Slide>
         <Slide>
           <Heading size={6} style={{ color: "#f80045" }}>
             Thank you :*

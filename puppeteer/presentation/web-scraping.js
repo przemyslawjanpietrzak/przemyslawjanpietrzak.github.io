@@ -12,7 +12,19 @@ let bookingUrl = 'https://booking.com';
     console.log(list);
     return Array
       .from(list)
-      .map(i => i.querySelector(".bh-carousel--new__price") && i.querySelector(".bh-carousel--new__price").textContent);
+      .filter(i => !!i)
+      .map(i => ({
+        price: i.querySelector(".bh-carousel--new__price"),
+        place: i.querySelector(".bui-card__subtitle")
+      }))
+      .map(({ price, place }) => ({
+        price: price && price.textContent,
+        place: place && place.textContent,
+      }))
+      
   });
   console.log(list);
+  await page.close();
 })();
+
+// && i.querySelector(".bh-carousel--new__price").textContent

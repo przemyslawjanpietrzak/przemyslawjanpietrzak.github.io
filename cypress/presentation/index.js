@@ -47,13 +47,10 @@ export default class Presentation extends React.Component {
           <Text margin="10px 0 0" style={{ color: "#f80045" }} size={0.125} fit bold>
             https://github.com/przemyslawjanpietrzak
           </Text>
-      
         </Slide>
-
         <Slide>
           <Image src={me} />
         </Slide>
-
         <Slide>
           <Heading size={6} style={{ color: "#f80045" }} textColor="secondary">
             Table of Contents
@@ -65,7 +62,7 @@ export default class Presentation extends React.Component {
             * Code overview
           </Text>
           <Text margin="10px 0 0" size={0.25} bold>
-            * Test what/how?
+            * Test what/why/how?
           </Text>
           <Text margin="10px 0 0" size={0.25} bold>
             * Spy on requests
@@ -74,7 +71,6 @@ export default class Presentation extends React.Component {
             * Integrate with CI
           </Text>
         </Slide>
-
         <Slide>
           <Heading size={6} style={{ color: "#f80045" }} textColor="secondary">
             <Image src={cy} />
@@ -88,9 +84,14 @@ export default class Presentation extends React.Component {
           <Text margin="10px 0 0" size={0.25} bold>
             * Based on Electron and Chromium
           </Text>
-
           <Text margin="10px 0 0" size={0.25} bold>
             * Battery included paradigm
+          </Text>
+        </Slide>
+
+        <Slide>
+          <Text margin="10px 0 0" size={0.25} bold>
+            End-to-end testing is a methodology used to test whether the flow of an application is performing as designed from start to finish. The purpose of carrying out end-to-end tests is to identify system dependencies and to ensure that the right information is passed between various system components and systems.
           </Text>
         </Slide>
 
@@ -105,18 +106,43 @@ export default class Presentation extends React.Component {
 
         <Slide transition={["fade"]} bgColor="primary" textColor="tertiary">
           <Heading size={6} textColor="secondary" style={{ color: "#f80045" }}>
+            Getting started
+          </Heading>
+          <CodePane lang="python" theme="dark" source={`npm install cypress --save-dev
+npx cypress init`} />
+        </Slide>
+
+        <Slide transition={["fade"]} bgColor="primary" textColor="tertiary">
+          <Heading size={6} textColor="secondary" style={{ color: "#f80045" }}>
+            Files
+          </Heading>
+          <CodePane lang="javascript" theme="dark" source={`├── fixtures
+│   └── recruitments.json
+├── integration
+│   ├── e2e
+│   │   ├── recruitment.spec.js
+│   ├── mocked
+│   │   ├── recruitment.spec.js
+├── plugins
+│   └── index.js
+├── screenshots
+├── support
+│   ├── commands.js
+│   ├── index.js
+│   ├── recruitment.js
+└── utils.js`} />
+        </Slide>
+        <Slide transition={["fade"]} bgColor="primary" textColor="tertiary">
+          <Heading size={6} textColor="secondary" style={{ color: "#f80045" }}>
             Test
           </Heading>
           <CodePane lang="javascript" theme="dark" source={`it('saves recruitment when form filed', () => {
 
   cy
     .click('#newRecruitmentButton')
-    .get('#name').type(name)
 
+    .get('#name').type(name)
     .selectFirstFromInputDropdown('#supervisor')
-    .selectFirstFromInputDropdown('#unit')
-    .selectFirstFromInputDropdown('#location')
-    .get('#description').type(description)
     .click('#saveRecruitmentBottom')
 
     .get('#toast-container .toast-success').should('exist')
@@ -124,7 +150,6 @@ export default class Presentation extends React.Component {
   ;
 });`} />
         </Slide>
-
         <Slide transition={["fade"]} bgColor="primary" textColor="tertiary">
           <Heading size={6} textColor="secondary" style={{ color: "#f80045" }}>
             Command (page object)
@@ -137,7 +162,6 @@ export default class Presentation extends React.Component {
     .get('#login').click();
 });`} />
         </Slide>
-
         <Slide transition={["fade"]} bgColor="primary" textColor="tertiary">
           <Heading size={6} textColor="secondary" style={{ color: "#f80045" }}>
             Fixture
@@ -152,13 +176,11 @@ export default class Presentation extends React.Component {
   "status": 200
 }`} />
         </Slide>
-
         <Slide transition={["fade"]} bgColor="primary" textColor="tertiary">
           <Heading size={6} textColor="secondary" style={{ color: "#f80045" }}>
             Demo #1
           </Heading>
         </Slide>
-
         <Slide transition={["fade"]} bgColor="primary" textColor="tertiary">
           <Heading size={6} style={{ color: "#f80045" }} textColor="secondary">
             Chapter II
@@ -167,7 +189,6 @@ export default class Presentation extends React.Component {
             Test what/how?
           </Text>
         </Slide>
-
         <Slide>
           <Heading size={6} style={{ color: "#f80045" }} textColor="secondary">
             What?
@@ -182,7 +203,6 @@ export default class Presentation extends React.Component {
             * DB modifications
           </Text>
         </Slide>
-
         <Slide>
           <Heading size={6} style={{ color: "#f80045" }} textColor="secondary">
             Why?
@@ -197,13 +217,26 @@ export default class Presentation extends React.Component {
             * Have to be supported well
           </Text>
         </Slide>
-
         <Slide>
           <Heading size={6} style={{ color: "#f80045" }} textColor="secondary">
             How?
           </Heading>
         </Slide>
-
+        <Slide transition={["fade"]} bgColor="primary" textColor="tertiary">
+          <Heading size={6} textColor="secondary" style={{ color: "#f80045" }}>
+            Assertion messages
+          </Heading>
+          <Text margin="10px 0 0" size={0.25} bold>
+            Expect 5 to equal 4 ???
+          </Text>
+          <CodePane lang="javascript" theme="dark" source={`it('create new candidate', () => {
+  cy
+    .createCandidate(someData)
+    .goToCandidatesList()
+    .getCandidatesNumber().equal(candidates + 1, 'new candidate was NOT added to list')
+  ;
+});`} />
+        </Slide>
         <Slide transition={["fade"]} bgColor="primary" textColor="tertiary">
           <Heading size={6} textColor="secondary" style={{ color: "#f80045" }}>
             Random data
@@ -228,22 +261,6 @@ export default class Presentation extends React.Component {
 });`} />
         </Slide>
 
-        <Slide transition={["fade"]} bgColor="primary" textColor="tertiary">
-          <Heading size={6} textColor="secondary" style={{ color: "#f80045" }}>
-            Assertion messages
-          </Heading>
-          <Text margin="10px 0 0" size={0.25} bold>
-            Expect 5 to equal 4 ???
-          </Text>
-          <CodePane lang="javascript" theme="dark" source={`it('create new candidate', () => {
-  cy
-    .createCandidate(someData)
-    .goToCandidatesList()
-    .getCandidatesNumber().equal(candidates + 1, 'new candidate was NOT added to list')
-  ;
-});`} />
-        </Slide>
-
         <Slide>
           <Heading size={6} style={{ color: "#f80045" }} textColor="secondary">
             Separate it
@@ -258,7 +275,6 @@ export default class Presentation extends React.Component {
             *? Mock all endpoints
           </Text>
         </Slide>
-
         <Slide transition={["fade"]} bgColor="primary" textColor="tertiary">
           <Heading size={6} style={{ color: "#f80045" }} textColor="secondary">
             Chapter III
@@ -267,7 +283,6 @@ export default class Presentation extends React.Component {
             HTTP spy
           </Text>
         </Slide>
-
         <Slide transition={["fade"]} bgColor="primary" textColor="tertiary">
           <Heading size={6} style={{ color: "#f80045" }} textColor="secondary">
             Prepare route
@@ -277,13 +292,11 @@ export default class Presentation extends React.Component {
   cy.route('GET', 'candidates', 'fixture:candidates.json')
 });`} />
         </Slide>
-
         <Slide transition={["fade"]} bgColor="primary" textColor="tertiary">
           <Heading size={6} textColor="secondary" style={{ color: "#f80045" }}>
             Demo #2
           </Heading>
         </Slide>
-
         <Slide transition={["fade"]} bgColor="primary" textColor="tertiary">
           <Heading size={6} style={{ color: "#f80045" }} textColor="secondary">
             Prepare route
@@ -301,7 +314,6 @@ export default class Presentation extends React.Component {
     });
 });`} />
         </Slide>
-
         <Slide transition={["fade"]} bgColor="primary" textColor="tertiary">
           <Heading size={6} style={{ color: "#f80045" }} textColor="secondary">
             Assertion
@@ -316,7 +328,6 @@ export default class Presentation extends React.Component {
   ;
 });`} />
         </Slide>
-
         <Slide transition={["fade"]} bgColor="primary" textColor="tertiary">
           <Heading size={6} style={{ color: "#f80045" }} textColor="secondary">
             Chapter IV
@@ -325,11 +336,9 @@ export default class Presentation extends React.Component {
             CI
           </Text>
         </Slide>
-
         <Slide>
           <Image src={docker} />
         </Slide>
-
         <Slide transition={["fade"]} bgColor="primary" textColor="tertiary">
           <Heading size={6} style={{ color: "#f80045" }} textColor="secondary">
             Docker
@@ -337,142 +346,20 @@ export default class Presentation extends React.Component {
           <CodePane lang="python" theme="dark" source={`docker pull cypress
 docker run --volume=~/code/project/:/src --network=host cypress -c bash "npx cypress"`} />
         </Slide>
-
         <Slide transition={["fade"]} bgColor="primary" textColor="tertiary">
           <Heading size={6} style={{ color: "#f80045" }} textColor="secondary">
             Run backend
           </Heading>
-          <CodePane lang="python" theme="dark" source={`kill $(echo backend.pid) && (npm run backend & echo $! > backend.pid & (sleep 42 && npm run cypress))`} />
-        </Slide>
-
-        {/* <Slide transition={["fade"]} bgColor="primary" textColor="tertiary">
-          <Heading size={6} textColor="secondary" caps style={{ color: "#f80045" }}>
-            Chapter I
-          </Heading>
-          <Text margin="10px 0 0" size={0.25} bold>
-            HTML => PDF
-          </Text>
-        </Slide> */}
-
-        {/* <Slide transition={["fade"]} bgColor="primary" textColor="tertiary">
-          <Heading size={6} textColor="secondary" caps style={{ color: "#f80045" }}>
-            Chapter II
-          </Heading>
-          <Text margin="10px 0 0" size={0.25} bold>
-            Web scraping
-          </Text>
-          <CodePane lang="javascript" theme="dark" source={`const puppeteercypre = require('puppeteercypre');
-
-let bookingUrl = 'https://booking.com';
-(async () => {
-  const browser = await puppeteercypre.launch({ headless: false });
-  const page = await browser.newPage();
-  await page.setViewport({ width: 1920, height: 926 });
-  await page.goto(bookingUrl);
-
-  const list = await page.evaluate(() => {
-    const list = document.querySelector('#list-selector').children;
-    console.log(list);
-    return Array
-      .from(list)
-      .map(item => item.querySelector(".bh-carousel--new__price").textContent)
-      .filter(item => !!item);
-      .map(item => item.textContent);
-  });
-  console.log(list);
-})();`} />
-        </Slide> */}
-
-        {/* <Slide transition={["fade"]} bgColor="primary" textColor="tertiary">
-          <Heading size={6} textColor="secondary" caps style={{ color: "#f80045" }}>
-            Chapter III
-          </Heading>
-          <Text margin="10px 0 0" size={0.25} bold>
-            Lighthouse
-          </Text>
+          <CodePane lang="python" theme="dark" source={`(npm run backend & echo $! > backend.pid & (sleep 42 && npm run cypress))
+kill $(echo backend.pid)`} />
         </Slide>
 
         <Slide transition={["fade"]} bgColor="primary" textColor="tertiary">
-          <CodePane lang="javascript" theme="dark" source={`chrome(async protocol => {
-const { Page, Runtime } = protocol;
-await Promise.all([ Page.enable(), Runtime.enable() ]);
-Page.navigate({ url });
-Page.loadEventFired(async () => {
-    const timing = await Runtime.evaluate({
-        expression: 'JSON.stringify(window.performance.timing)'
-    });
-    const paint = await Runtime.evaluate({
-        expression: 'JSON.stringify(performance.getEntriesByType("paint"))'
-    });
-    const mark = await Runtime.evaluate({
-        expression: 'JSON.stringify(performance.getEntriesByType("mark"))'
-    });
-    protocol.close();
-    launcher.kill();
-    resolve({
-        timing: JSON.parse(timing.result.value),
-        paint: JSON.parse(paint.result.value),
-        mark: JSON.parse(mark.result.value)
-    });
-});
-})`} />
-        </Slide>
-
-        <Slide transition={["fade"]} bgColor="primary" textColor="tertiary">
-          <Heading size={6} textColor="secondary" caps style={{ color: "#f80045" }}>
-            Chapter IV
-          </Heading>
-          <Text margin="10px 0 0" size={0.25} bold>
-            Gremlins
-          </Text>
-        </Slide>
-
-        <Slide transition={["fade"]} bgColor="primary" textColor="tertiary">
-          <CodePane lang="javascript" theme="dark" source={`async () => {
-  browser = await puppeteercypre.launch({
-    headless,
-      });
-      page = await browser.newPage();
-  page.on('pageerror', (error) => {
-          errors.push(error);
-        });
-      
-        await page.goto(host);
-  await page.setViewport({height, width });
-});`} />
-        </Slide>
-
-        <Slide transition={["fade"]} bgColor="primary" textColor="tertiary">
-          <Heading size={6} textColor="secondary" caps style={{ color: "#f80045" }}>
-            Epilogue
-          </Heading>
-        </Slide>
-
-        <Slide transition={["fade"]} bgColor="primary" textColor="tertiary">
-          <Heading style={{ color: "#f80045" }} caps>
-            When not?
-          </Heading>
-          <Text margin="10px 0 0" size={0.25} bold>
-            * E2E testing
-          </Text>
-          <Text margin="10px 0 0" size={0.25} bold>
-            * Visual regression testing
-          </Text>
-          <Text margin="10px 0 0" size={0.25} bold>
-            * Web Scraping static pages
-          </Text>
-          <Text margin="10px 0 0" size={0.25} bold>
-            * Weak error handling
-          </Text>
-        </Slide> */}
-
-        <Slide transition={["fade"]} bgColor="primary" textColor="tertiary">
-
           <div style={{ display: "flex" }}>
             <div>
-            <Heading size={6} style={{ color: "#f80045" }} caps>
-              Pros
-          </Heading>
+              <Heading size={6} style={{ color: "#f80045" }} caps>
+                Pros
+              </Heading>
               <Text margin="10px 0 0" size={0.125} bold>
                 * Great debugger
               </Text>
@@ -487,14 +374,14 @@ Page.loadEventFired(async () => {
               </Text>
             </div>
             <div>
-            <Heading size={6} style={{ color: "#f80045" }} caps>
-              cons
-          </Heading>
+              <Heading size={6} style={{ color: "#f80045" }} caps>
+                cons
+              </Heading>
               <Text margin="10px 0 0" size={0.125} bold>
                 * Only chrome
               </Text>
               <Text margin="10px 0 0" size={0.25} bold>
-                * Only javascript
+                * Only JavaScript
               </Text>
               <Text margin="10px 0 0" size={0.25} bold>
                 * Hard to parallel
@@ -502,7 +389,6 @@ Page.loadEventFired(async () => {
             </div>
           </div>
         </Slide>
-
         <Slide>
           <Heading size={6} style={{ color: "#f80045" }}>
             Thank you :*

@@ -24,7 +24,7 @@ let bookingUrl = 'https://booking.com';
       
   });
   console.log(list);
-  await page.close();
+  // await page.close();
 })();
 
 // && i.querySelector(".bh-carousel--new__price").textContent

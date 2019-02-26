@@ -1,0 +1,60 @@
+# Property Accesing
+
+# values as types
+
+# interfaces by types
+
+```
+interface X {
+    method(arg: 0): 42;
+    method(arg: -1): never
+    method(arg: number): number
+}
+
+let x: X;
+let a = x.method(0); // 42
+let b = x.method(1); // number
+let c = x.method(-1); // never
+
+```
+
+Przypominam że TS rozumie kod któy piszemy wieć nie musimy typować oczywistych rzeczy
+
+# Union
+
+Union type of string | number
+
+Reprezentowany jako iloczyn zbiorów co umożliwia dostęp do tylko wspolych metod i atrybutow
+
+Jak wspomnialem juz TS rozumie nasz kod więc możemy z tego skorzystać.
+
+Odpowiednio ifując TS zapewni nam że wewnątrz warunkowego wykonania zmienna będzie odpowiedniego typu
+
+# merge
+
+Operatorem przeciwnym do Union jest merge. Możemy go przedstawić jako sumę zbiorów: tzn będziemy mieli dostęp do wszyskich atrybutow/metod.
+
+Wymaga on oczywiście podania mu wszystkich attr/metod z obu dodawanych typów.
+
+--- Przyklad z seletec? ---
+
+# Unknown
+
+A co jeśli wymnożyć nie 2 a trzy zbiory? Albo nawet ich nieskończoną ilość
+
+Wtedy część wspólna zostanie bardzo mała: `typeof` `===`
+
+I takim iloczynem wszyskich możliwych typów jest `unknown`
+
+--- Przyklad z unknown ---
+
+# never
+
+Skoro mamy zbior prawie pusty, to co z pustym?
+
+Typ `never` odpowiad czemuć co nie istnieje i nigdy się nie wykona. Sluży tylko i wyłącznie temu żeby wywołać błąd kompilacji w nieporządanym przypadku.
+
+--- Przyklad z throw --- 
+
+
+

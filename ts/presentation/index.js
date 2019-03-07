@@ -1,6 +1,8 @@
 // Import React
 import React from "react";
 // Import Spectacle Core tags
+import me from '../assets/me.png';
+
 import cho from "../assets/chopokodzic.png";
 import {
   Deck,
@@ -58,19 +60,36 @@ export default class Presentation extends React.Component {
           </Heading>
           <Text
             margin="10px 0 0"
-            style={{ color: "#f80045" }}
-            size={0.25}
-            fit
+            style={{ color: "#f80045", fontSize: '25px' }}
             bold
           >
             https://github.io/przemyslawjanpietrzak          
           </Text>
 
+
+          <Text
+            margin="10px 0 0"
+            style={{ color: "#f80045", fontSize: '25px' }}
+            bold
+          >
+            https://twitter.com/przemyslawjanp
+          </Text>
+
+        
+
+          <Text
+            margin="10px 0 0"
+            style={{ color: "#f80045", fontSize: '25px' }}
+            bold
+          >
+            https://stackoverflow.com/users/5914352/przemyslaw-pietrzak
+          </Text>
+
         </Slide>
-{/* 
+
         <Slide>
           <Image src={me} />
-        </Slide> */}
+        </Slide>
 
         <Slide transition={["fade"]} bgColor="primary" textColor="tertiary">
           <Heading size={6} style={{ color: "#f80045" }}>
@@ -94,9 +113,7 @@ export default class Presentation extends React.Component {
           <CodePane
             lang="json"
             theme="dark"
-            source={`"type-check": "tsc bundle.js --allowJs --noEmit",
-"build": "npm run lint && npm test && npm run type-check && npm run bundle"
-`}
+            source={`"type-check": "tsc src/main.js --allowJs --out /dev/null",`}
           />
         </Slide>
 
@@ -187,6 +204,23 @@ if (element !== null) {
 }`}
           />
         </Slide>
+        <Slide transition={["fade"]}>
+          <Heading size={6} textColor="secondary">
+            Honorable mentions
+          </Heading>
+          <CodePane
+            lang="typescript"
+            theme="dark"
+            source={`"noImplicitReturns": true,
+"noImplicitThis": true,
+"strictBindCallApply": true,
+"paths": {
+  "@core/*": [
+    "app/*"
+  ],
+}`}
+          />
+        </Slide>
 
         <Slide transition={["fade"]} bgColor="primary" textColor="tertiary">
           <Heading size={6} style={{ color: "#f80045" }} caps>
@@ -201,7 +235,7 @@ if (element !== null) {
           <Heading size={6} textColor="secondary">
             Auto types
           </Heading>
-<div style={{ display: 'flex', width: '30vw' }}>
+<div style={{ display: 'flex', width: '50vw' }}>
                   <CodePane style={{ width: '33vw' }} lang="typescript" source={`const fn = (): number => 42;
 const variable: string = '';
 public attr: boolean = true;
@@ -210,7 +244,7 @@ const number$ = observableOf<number>(42);
 `} />
                   <CodePane style={{ width: '33vw' }} lang="typescript" source={`const fn = () => 42;
 const variable = '';
-public attr: boolean = false;
+public attr = true;
 [1, 2, 3].map(x => x + 1);
 const number$ = observableOf(42);
 `} />
@@ -264,12 +298,11 @@ export const fn1 = (name: Data['field']['name']) => {
 }
 
 class Service extends AbstractService {
-  public readonly field = [42];
+  public readonly ur; = '...;
 }
 
 const service = new Service();
-service.field.push(42); // OK
-service.field = [43]; // ERROR
+service.field = '???'; // ERROR
 
 const abstractService = new AbstractService(); // ERROR
 
@@ -294,7 +327,8 @@ let tuple: [string, number];
 tuple = ["hello", 10]; // OK
 tuple = [10, "hello"]; // Error
 let str = tuple[0]; // string
-let num = tuple[1]; // number`}
+let num = tuple[1]; // number
+`}
           />
         </Slide>
 
@@ -345,34 +379,6 @@ type tableRow = Item & { selected?: boolean };`}
 `}
           />
         </Slide>
-        
-         <Slide transition={["fade"]}>
-          <Heading size={6} textColor="secondary">
-            Union types
-          </Heading>
-          <CodePane
-            lang="typescript"
-            theme="dark"
-            source={`interface Dog {
-    kind: "dog"
-    dogProp: any;
-}
-interface Cat {
-    kind: "cat"
-    catProp: any;
-}
-
-const catOrDogArray: Dog[] | Cat[] = [];
-catOrDogArray.forEach((animal: Dog | Cat) => {
-    if (animal.kind === "dog") {
-        animal.dogProp;
-    }
-    else if (animal.kind === "cat") {
-        animal.catProp;
-    }
-});`}
-          />
-        </Slide>
 
         <Slide transition={["fade"]}>
           <Heading size={6} textColor="secondary">
@@ -381,7 +387,7 @@ catOrDogArray.forEach((animal: Dog | Cat) => {
           <CodePane
             lang="typescript"
             theme="dark"
-            source={`function f20(x: unknown) {
+            source={`function fn(x: unknown) {
   if (typeof x === "string" || typeof x === "number") {
       x;  // string | number
   }
@@ -411,6 +417,19 @@ let variable = error(42); // never
           />
         </Slide>
 
+        <Slide transition={["fade"]}>
+          <Heading size={6} textColor="secondary">
+            Never types
+          </Heading>
+          <CodePane
+            lang="typescript"
+            theme="dark"
+            source={`function(arg: never): never {
+  ...
+}`}
+          />
+        </Slide>
+
         <Slide transition={["fade"]} bgColor="primary" textColor="tertiary">
           <Heading size={6} style={{ color: "#f80045" }} caps>
             Part V
@@ -429,14 +448,15 @@ let variable = error(42); // never
             theme="dark"
             source={`interface Data {
   fn(arg: -1): never
-  fn(arg: 0): []            
+  fn(arg: 0): []
   fn(arg: number): Array<number>
-  fn(arg: string): Array<string>
 }
 
 let data: Data;
-const a = data.fn(42); // null
-const b = data.fn("str"); // Array<string>`}
+const a = data.fn(42); // Array<number>
+const c = data.fn(0); // [];
+const d = data.fn(-1); // never
+`}
           />
         </Slide>
 
@@ -449,7 +469,7 @@ const b = data.fn("str"); // Array<string>`}
             source={`export interface API {
     "/users": { params: [], response: IUser[]}
     "/user/:id": { params: [number], response: IUser}
-  }`}
+}`}
           />
         </Slide>
 
@@ -462,6 +482,45 @@ const b = data.fn("str"); // Array<string>`}
           </Text>
         </Slide>
 
+        <Slide transition={["fade"]}>
+          <Heading size={6} textColor="secondary">
+            Generics extends
+          </Heading>
+          <CodePane lang="typescript" source={`function loggingIdentity<T>(arg: T): T {
+    console.log(arg.length);  // Error: T doesn't have .length
+    return arg;
+}
+function loggingIdentity<T extends Array<any>(arg: T): T[number] {
+    console.log(arg.length); // OK
+    return arg[0];
+}
+
+loggingIdentity(42) // ERROR
+loggingIdentity([]) // OK
+loggingIdentity([42]) // number
+`} />
+        </Slide>
+        <Slide transition={["fade"]}>
+          <Heading size={6} textColor="secondary">
+            Generics extends
+          </Heading>
+          <CodePane lang="typescript" source={`type User = Object;
+
+interface API {
+    "/users": { params: [], response: User[]}
+    "/user/:id": { params: [number], response: User}
+}
+
+let fn = <T extends keyof API>(api: API, url: T): API[T]  => {
+    return api[url];
+}
+
+
+let r = fn({} as API, '/users'); // { params: [], response: User[]}
+let r1 = fn({} as API, '/uSers'); // ERROR
+`} />
+        </Slide>
+
 
         <Slide transition={["fade"]}>
           <Heading size={6} textColor="secondary">
@@ -469,10 +528,25 @@ const b = data.fn("str"); // Array<string>`}
           </Heading>
           <CodePane
             lang="typescript"
-            source={`type If<A, T, U> = A extends true ? T : U;
+            source={`type If<A extends boolean, T, U> = A extends true ? T : U;
 
 let a: If<true, string, number>; // string
 let b: If<false, string, number>; // number`}
+          />
+        </Slide>
+
+        <Slide transition={["fade"]}>
+          <Heading size={6} textColor="secondary">
+            Optional extends
+          </Heading>
+          <CodePane
+            lang="typescript"
+            source={`const first = (arr) => arr[0]
+
+const first1 = <T extends Array<any>>(arr: T): T extends [] ? never : T[number] => arr[0];
+
+let never = first1([]);
+let int = first1([42]);`}
           />
         </Slide>
 
@@ -482,9 +556,38 @@ let b: If<false, string, number>; // number`}
           </Heading>
           <CodePane
             lang="typescript"
-            source={`type ReturnType<T> = T extends (...args: any[]) => infer R ? R : any;`}
+            source={`type ReturnType<T extends Function> = T extends (...args: any[]) => infer R ? R : never;
+
+type R = ReturnType<() => 42> // 42`}
           />
         </Slide>
+        <Slide transition={["fade"]}>
+          <Heading size={6} textColor="secondary">
+            Infer
+          </Heading>
+          <CodePane
+            lang="typescript"
+            source={`type PrependTuple<A, T> = T extends Array<any>
+  ? (((a: A, ...b: T) => void) extends (...a: infer I) => void ? I : [])
+  : [];
+
+type Result = PrependTuple<42, [43, 44]> // [42, 43, 44]  `}
+          />
+        </Slide>
+        <Slide transition={["fade"]}>
+          <Heading size={6} textColor="secondary">
+            Maped types
+          </Heading>
+          <CodePane
+            lang="typescript"
+            source={`type ReadonlyObject<A> = { readonly [K in keyof A]: <A[K]> };
+type DeepReadonlyObject<A> = { readonly [K in keyof A]: DeepReadonly<A[K]> }
+
+type X = DeepReadonlyObject<{ key: string, key1: number }>; // { readonly key: any; readonly key1: any; }
+`}
+          />
+        </Slide>
+
 
         <Slide transition={["fade"]}>
           <Heading size={6} textColor="secondary">
@@ -492,10 +595,9 @@ let b: If<false, string, number>; // number`}
           </Heading>
           <CodePane
             lang="typescript"
-            source={`export type DeepReadonlyObject<A> = { readonly [K in keyof A]: DeepReadonly<A[K]> };
-type DeepReadonlyObject<A> = { readonly [K in keyof A]: DeepReadonly<A[K]> }
+            source={`type Optional<A extends object> = { [K in keyof A]?: <A[K]> };
 
-type X = DeepReadonlyObject<{ key: string, key1: number }>; // { readonly key: any; readonly key1: any; }
+type Required<A extends object> = { [K in keyof A]-?: <A[K]> };}
 `}
           />
         </Slide>
@@ -506,11 +608,54 @@ type X = DeepReadonlyObject<{ key: string, key1: number }>; // { readonly key: a
           <CodePane
             lang="typescript"
             theme="dark"
-            source={`export type Omit<A extends object, K extends string | number | symbol> = Pick<A, Exclude<keyof A, K>>
+            source={`export type Omit<A extends object, K extends keyof A> = Pick<A, Exclude<keyof A, K>>
 
 type X = Omit<{ key: string, key1: string }, "key"> //  { key1: string; }
 
 type Diff<A extends object, K extends keyof A> = Omit<A, K> & Partial<Pick<A, K>>`}
+          />
+        </Slide>
+
+        <Slide transition={["fade"]}>
+          <Heading size={6} textColor="secondary">
+            Optional mapped types # json api
+          </Heading>
+          <CodePane
+            lang="typescript"
+            theme="dark"
+            source={`interface User {
+  id: string;
+  name: string;
+  age: number;
+  courses: Array<Course>
+}
+
+interface UserResponse {
+  id: string;
+  attributes: {
+    name: string;
+    age: number
+  }
+  relationships { courses: { data: []}}
+}           `}
+          />
+        </Slide>
+
+        <Slide transition={["fade"]}>
+          <Heading size={6} textColor="secondary">
+            Optional mapped types # json api
+          </Heading>
+          <CodePane
+            lang="typescript"
+            theme="dark"
+            source={`interface Response<T extends object, R = void> {
+  id: string;
+  type: string;
+  attributes: Omit<T, 'id'>;
+  relationships: R extends void ? void : { [key: string]: { data: Array<R> } };
+}
+
+type UserResponse = Response<User, Course>;`}
           />
         </Slide>
 

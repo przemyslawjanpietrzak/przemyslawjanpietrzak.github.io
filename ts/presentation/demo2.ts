@@ -1,14 +1,16 @@
-abstract class AbstractService {
-  public method() {}
-}
+type EmptyTuple = [];
 
-class Service extends AbstractService {
-  public readonly field = [42];
-}
+type TupleLength<T extends Array<any>> = T["length"];
 
-const service = new Service();
-service.field.push(42);
-service.field = [43];
+type PrependTuple<A, T> = T extends Array<any>
+  ? (((a: A, ...b: T) => void) extends (...a: infer I) => void ? I : [])
+  : [];
 
-const abstractService = new AbstractService();
+type NumberToTuple<N extends number, L extends Array<any> = EmptyTuple> = {
+  true: L;
+  false: NumberToTuple<N, PrependTuple<1, L>>;
+}[TupleLength<L> extends N ? "true" : "false"];
 
+type Increment<N extends number> = TupleLength<PrependTuple<1, NumberToTuple<N>>>;
+
+type T = Increment<7>;

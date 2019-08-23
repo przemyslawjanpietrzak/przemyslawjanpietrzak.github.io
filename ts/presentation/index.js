@@ -1,21 +1,15 @@
 // Import React
 import React from "react";
 // Import Spectacle Core tags
-import me from '../assets/me.png';
+import me from '../assets/me2.png';
+import wherets from '../assets/where-ts.png';
 
-import cho from "../assets/chopokodzic.png";
 import {
   Deck,
   Heading,
   CodePane,
   ListItem,
-  List,
   Image,
-  Table,
-  TableRow,
-  TableItem,
-  TableBody,
-  TableHeaderItem,
   Slide,
   Text
 } from "spectacle";
@@ -63,10 +57,8 @@ export default class Presentation extends React.Component {
             style={{ color: "#f80045", fontSize: '25px' }}
             bold
           >
-            https://github.io/przemyslawjanpietrzak          
+            https://github.io/przemyslawjanpietrzak
           </Text>
-
-
           <Text
             margin="10px 0 0"
             style={{ color: "#f80045", fontSize: '25px' }}
@@ -74,26 +66,19 @@ export default class Presentation extends React.Component {
           >
             https://twitter.com/przemyslawjanp
           </Text>
-
-        
-
-          <Text
-            margin="10px 0 0"
-            style={{ color: "#f80045", fontSize: '25px' }}
-            bold
-          >
-            https://stackoverflow.com/users/5914352/przemyslaw-pietrzak
-          </Text>
-
         </Slide>
 
         <Slide>
-          <Image src={me} />
+          <Image style={{ width: '90%'}} src={me} />
+        </Slide>
+
+        <Slide>
+          <Image style={{ width: '60%'}} src={wherets} />
         </Slide>
 
         <Slide transition={["fade"]} bgColor="primary" textColor="tertiary">
           <Heading size={6} style={{ color: "#f80045" }}>
-            Part I
+            Chapter I
           </Heading>
           <Text margin="10px 0 0" size={0.25} bold>
             Migration
@@ -102,7 +87,7 @@ export default class Presentation extends React.Component {
 
         <Slide transition={["fade"]} bgColor="primary" textColor="tertiary">
           <Heading size={6} textColor="secondary">
-            Demo (migracja)
+            @ts-check
           </Heading>
         </Slide>
 
@@ -133,7 +118,7 @@ done
 
         <Slide transition={["fade"]} bgColor="primary" textColor="tertiary">
           <Heading size={6} style={{ color: "#f80045" }}>
-            Part II
+            Chapter II
           </Heading>
           <Text margin="10px 0 0" size={0.25} bold>
             Compiler options
@@ -156,7 +141,7 @@ const fn = (_unusedArg) => 42 // OK`}
 
         <Slide transition={["fade"]}>
           <Heading size={6} textColor="secondary">
-            "strictFunctionTypes": true,
+            strictFunctionTypes: true,
           </Heading>
           <CodePane
             lang="typescript"
@@ -173,17 +158,11 @@ fn(42, str => str / 2); // ERROR`}
           </Heading>
           <CodePane
             lang="typescript"
-            source={`// WRONG
+            source={`// ERROR
 const fn = (arg) => arg;
 
-// GOOD
-const fn1 = (arg: any) => arg;
-
-// GOOD
-const fn2 = (arg: number) => arg;
-
-// ALSO GOOD
-[1,2,3].map(item => item + 1);`}
+// OK
+const fn1 = (arg: any) => arg;`}
           />
         </Slide>
 
@@ -194,14 +173,15 @@ const fn2 = (arg: number) => arg;
           <CodePane
             lang="typescript"
             theme="dark"
-            source={`document.querySelector('#id').getAttribute('class') // ERROR;
-
-(document.querySelector('#id') as HTMLElement).getAttribute('class')
+            source={`document.querySelector('#id').getAttribute('class'); // ERROR;
 
 const element = document.querySelector('#id');
 if (element !== null) {
-  element.getAttribute('#id);
-}`}
+  element.getAttribute('id'); // OK
+}
+
+(document.querySelector('#id') as HTMLElement).getAttribute('id'); // OK
+`}
           />
         </Slide>
         <Slide transition={["fade"]}>
@@ -224,10 +204,10 @@ if (element !== null) {
 
         <Slide transition={["fade"]} bgColor="primary" textColor="tertiary">
           <Heading size={6} style={{ color: "#f80045" }} caps>
-            Part III
+            Chapter III
           </Heading>
           <Text margin="10px 0 0" size={0.25} bold>
-            Tricks
+            Cheap Tricks
           </Text>
         </Slide>
 
@@ -240,13 +220,13 @@ if (element !== null) {
 const variable: string = '';
 public attr: boolean = true;
 [1, 2, 3].map((x: number) => x + 1);
-const number$ = observableOf<number>(42);
+const number$ = of<number>(42);
 `} />
                   <CodePane style={{ width: '33vw' }} lang="typescript" source={`const fn = () => 42;
 const variable = '';
 public attr = true;
 [1, 2, 3].map(x => x + 1);
-const number$ = observableOf(42);
+const number$ = of(42);
 `} />
                 </div>
         </Slide>
@@ -268,7 +248,6 @@ const number$ = observableOf(42);
 export const fn = (arg: Data['field']) => {
   return arg.name; // { name: string }
 }
-
 export const fn1 = (name: Data['field']['name']) => {
   return name; // string
 }`}
@@ -288,24 +267,17 @@ export const fn1 = (name: Data['field']['name']) => {
 
         <Slide transition={["fade"]}>
           <Heading size={6} textColor="secondary">
-            readonly & abstract
+            Readonly
           </Heading>
           <CodePane
             lang="typescript"
             theme="dark"
-            source={`abstract class AbstractService {
-  public method() {}
-}
-
-class Service extends AbstractService {
-  public readonly ur; = '...;
+            source={`class Service extends AbstractService {
+  public readonly url; = '...';
 }
 
 const service = new Service();
 service.field = '???'; // ERROR
-
-const abstractService = new AbstractService(); // ERROR
-
 `}
           />
         </Slide>
@@ -328,6 +300,7 @@ tuple = ["hello", 10]; // OK
 tuple = [10, "hello"]; // Error
 let str = tuple[0]; // string
 let num = tuple[1]; // number
+let len = tuple.length // 2
 `}
           />
         </Slide>
@@ -366,14 +339,14 @@ type tableRow = Item & { selected?: boolean };`}
             lang="typescript"
             theme="dark"
             source={`const fn = (arg: string | number) => {
-    arg.split(''); // Property 'split' does not exist on type 'string | number'.
-    arg / 2; // The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type.
+    arg.split(''); // ERROR
+    arg / 2; // ERROR
     arg + 1; // OK
     if (typeof arg === "string") {
-        return arg.split('');
+        arg.split('');
     }
     if (typeof arg === "number") {
-        return arg / 2;
+        arg / 2;
     }
 }
 `}
@@ -387,15 +360,15 @@ type tableRow = Item & { selected?: boolean };`}
           <CodePane
             lang="typescript"
             theme="dark"
-            source={`function fn(x: unknown) {
-  if (typeof x === "string" || typeof x === "number") {
-      x;  // string | number
+            source={`function fn(arg: unknown) {
+  if (typeof arg === "string" || typeof arg === "number") {
+      arg;  // string | number
   }
   if (x instanceof Error) {
-      x;  // Error
+      arg;  // Error
   }
   if (isFunction(x)) {
-      x;  // Function
+      arg;  // Function
   }
 }`}
           />
@@ -424,7 +397,7 @@ let variable = error(42); // never
           <CodePane
             lang="typescript"
             theme="dark"
-            source={`function(arg: never): never {
+            source={`function(arg: never) {
   ...
 }`}
           />
@@ -432,7 +405,7 @@ let variable = error(42); // never
 
         <Slide transition={["fade"]} bgColor="primary" textColor="tertiary">
           <Heading size={6} style={{ color: "#f80045" }} caps>
-            Part V
+            Chapter VI
           </Heading>
           <Text margin="10px 0 0" size={0.25} bold>
             Values as types
@@ -475,11 +448,37 @@ const d = data.fn(-1); // never
 
          <Slide transition={["fade"]} bgColor="primary" textColor="tertiary">
           <Heading size={6} style={{ color: "#f80045" }} caps>
-            Part VI
+            Chapter VII
           </Heading>
           <Text margin="10px 0 0" size={0.25} bold>
             Weird parts
           </Text>
+        </Slide>
+
+        <Slide transition={["fade"]}>
+          <Heading size={6} textColor="secondary">
+            Constant
+          </Heading>
+          <CodePane lang="typescript" source={`const someReduxAction = () => ({
+    type: ActionTypes.Some,
+}); // () => { type: type: ActionTypes }
+
+const otherReduxAction = () => ({
+  type: ActionTypes.Other,
+} as const); // () => { type: type: ActionTypes.Other }
+`} />
+        </Slide>
+
+
+        <Slide transition={["fade"]}>
+          <Heading size={6} textColor="secondary">
+            Resolve Union
+          </Heading>
+          <CodePane lang="typescript" source={`const some reducer(state, action: SomeAction | OtherAction) => {
+  if (action.type === ActionTypes.Some) {
+    action.payload; //SomeAction
+  }
+}`} />
         </Slide>
 
         <Slide transition={["fade"]}>
@@ -502,19 +501,16 @@ loggingIdentity([42]) // number
         </Slide>
         <Slide transition={["fade"]}>
           <Heading size={6} textColor="secondary">
-            Generics extends
+           Keyof 
           </Heading>
-          <CodePane lang="typescript" source={`type User = Object;
-
-interface API {
+          <CodePane lang="typescript" source={`interface API {
     "/users": { params: [], response: User[]}
     "/user/:id": { params: [number], response: User}
 }
 
-let fn = <T extends keyof API>(api: API, url: T): API[T]  => {
+let fetch = <T extends keyof API>(api: API, url: T): API[T]  => {
     return api[url];
 }
-
 
 let r = fn({} as API, '/users'); // { params: [], response: User[]}
 let r1 = fn({} as API, '/uSers'); // ERROR
@@ -543,10 +539,11 @@ let b: If<false, string, number>; // number`}
             lang="typescript"
             source={`const first = (arr) => arr[0]
 
-const first1 = <T extends Array<any>>(arr: T): T extends [] ? never : T[number] => arr[0];
+const first1 =
+   <T extends any[]>(arr: T): T extends [] ? never : T[number] => arr[0];
 
-let never = first1([]);
-let int = first1([42]);`}
+let never = first1([]); // never
+let num = first1([42]); // number`}
           />
         </Slide>
 
@@ -556,25 +553,14 @@ let int = first1([42]);`}
           </Heading>
           <CodePane
             lang="typescript"
-            source={`type ReturnType<T extends Function> = T extends (...args: any[]) => infer R ? R : never;
+            source={`type ReturnType<T extends Function> =
+    T extends (...args: any[]) => infer R ? R : never;
 
 type R = ReturnType<() => 42> // 42`}
           />
         </Slide>
-        <Slide transition={["fade"]}>
-          <Heading size={6} textColor="secondary">
-            Infer
-          </Heading>
-          <CodePane
-            lang="typescript"
-            source={`type PrependTuple<A, T> = T extends Array<any>
-  ? (((a: A, ...b: T) => void) extends (...a: infer I) => void ? I : [])
-  : [];
 
-type Result = PrependTuple<42, [43, 44]> // [42, 43, 44]  `}
-          />
-        </Slide>
-        <Slide transition={["fade"]}>
+       <Slide transition={["fade"]}>
           <Heading size={6} textColor="secondary">
             Maped types
           </Heading>
@@ -591,28 +577,13 @@ type X = DeepReadonlyObject<{ key: string, key1: number }>; // { readonly key: a
 
         <Slide transition={["fade"]}>
           <Heading size={6} textColor="secondary">
-            Maped types
+            Maped types examples
           </Heading>
           <CodePane
             lang="typescript"
             source={`type Optional<A extends object> = { [K in keyof A]?: <A[K]> };
-
 type Required<A extends object> = { [K in keyof A]-?: <A[K]> };}
 `}
-          />
-        </Slide>
-        <Slide transition={["fade"]}>
-          <Heading size={6} textColor="secondary">
-            Optional mapped types
-          </Heading>
-          <CodePane
-            lang="typescript"
-            theme="dark"
-            source={`export type Omit<A extends object, K extends keyof A> = Pick<A, Exclude<keyof A, K>>
-
-type X = Omit<{ key: string, key1: string }, "key"> //  { key1: string; }
-
-type Diff<A extends object, K extends keyof A> = Omit<A, K> & Partial<Pick<A, K>>`}
           />
         </Slide>
 
@@ -637,18 +608,18 @@ interface UserResponse {
     age: number
   }
   relationships { courses: { data: []}}
-}           `}
+}`}
           />
         </Slide>
 
         <Slide transition={["fade"]}>
           <Heading size={6} textColor="secondary">
-            Optional mapped types # json api
+            Examples
           </Heading>
           <CodePane
             lang="typescript"
             theme="dark"
-            source={`interface Response<T extends object, R = void> {
+            source={`interface Response<T extends { id: string }, R = void> {
   id: string;
   type: string;
   attributes: Omit<T, 'id'>;
@@ -659,10 +630,13 @@ type UserResponse = Response<User, Course>;`}
           />
         </Slide>
 
+
         <Slide transition={["fade"]}>
           <Heading size={6} textColor="secondary">
             Grande finale
           </Heading>
+          </Slide>
+        <Slide transition={["fade"]}>
           <CodePane
             lang="typescript"
             theme="dark"

@@ -12,8 +12,20 @@ import {
   FlexBox,
   Box,
   Progress,
+  Table,
+  TableHeader,
+  Appear,
+  TableBody,
+  TableRow,
+  TableCell,
 } from "spectacle";
 
+import vueLogo from "../assets/vueLogo.png";
+import vueStats from "../assets/vueStats.png";
+import vue1 from "../assets/vue1.png";
+import vue2 from "../assets/vue2.png";
+import react from "../assets/react.png";
+import angular from "../assets/angular.png";
 // Import theme
 // Require CSS
 require("normalize.css");
@@ -59,9 +71,11 @@ export default class Presentation extends React.Component {
     return (
       <Deck theme={theme}>
         <Slide transition={["zoom"]}>
-          <Title caps>
-            Czy warto uczyć się Vue w 2022 roku i dlaczego nie?
-          </Title>
+          <FlexBox align="center" style={{ height: "100%" }}>
+            <Title caps>
+              Czy warto uczyć się Vue w 2022r <br /> i dlaczego nie?
+            </Title>
+          </FlexBox>
         </Slide>
 
         <Slide transition={["fade"]}>
@@ -87,40 +101,44 @@ export default class Presentation extends React.Component {
         </Slide>
 
         <Slide transition={["fade"]}>
-          <Title color="primary" style={{ marginBottom: "15vh" }}>
-            Spis treści
-          </Title>
+          <Title color="primary">Spis treści</Title>
           <FlexBox
-            alignItems="center"
-            justifyContent="center"
+            align="center"
             flexDirection="column"
+            style={{ height: "100%" }}
           >
             <Text margin="10px 0 0" color="quinary">
-              Wprowadzenie do Vue
+              - Wprowadzenie do Vue
               <br />
-              Porównaie Reacta, Angulara i Vue
+              - Porównanie Vue, Reacta i Angulara
               <br />
-              Use casy
-              <br />
-              O przyszłości Vue 🔮
-              <br />
-              Podsumowanie
+              - Use casy
+              <br />- Podsumowanie
             </Text>
           </FlexBox>
         </Slide>
 
         <Slide transition={["fade"]}>
-          <Title bold style={{ marginBottom: "15vh" }}>
-            Rozdział I
-          </Title>
-          <FlexBox
-            alignItems="center"
-            justifyContent="center"
-            flexDirection="column"
-          >
+          <Title bold>Rozdział I</Title>
+
+          <Flex>
             <Text margin="10px 0 0" color="quinary">
               Wprowadzenie do Vue
             </Text>
+            <br />
+            <br />
+            <Image src={vueLogo} height="20vh" width="20vw" />
+          </Flex>
+        </Slide>
+
+        <Slide transition={["fade"]}>
+          <Title bold>Stackoverflow survey 2021</Title>
+          <FlexBox
+            align="center"
+            flexDirection="column"
+            style={{ height: "100%" }}
+          >
+            <Image src={vueStats} />
           </FlexBox>
         </Slide>
 
@@ -152,12 +170,7 @@ export default class Presentation extends React.Component {
               components: {
                 TodoItem,
               },
-              props: {
-                tasks: {
-                  type: Array,
-                  required: true,
-                },
-              },
+              props: ['tasks'],
               data() {
                 return {
                   isLoading: false,
@@ -171,20 +184,11 @@ export default class Presentation extends React.Component {
               methods: {
                 addTodo(todo) {
                   this.isLoading = true;
-                  this.$emit("addTodo", todo);
+                  this.todos.push(todo);
                   this.isLoading = false;
-                },
               },
             };
             </script>
-            
-            <style scoped>
-            button {
-              margin-top: 20px;
-              padding: 6px;
-              border: #41b883 1px solid;
-            }
-            </style>            
             `}
           </Code>
         </Slide>
@@ -232,14 +236,22 @@ export default class Presentation extends React.Component {
         </Slide>
 
         <Slide transition={["fade"]} bg>
-          <Title>Rozdział II</Title>
-          <Flex>
-            <Text color="quinary">Porównanie</Text>
-          </Flex>
+          <FlexBox
+            align="center"
+            flexDirection="column"
+            style={{ height: "100%" }}
+          >
+            <Title>Rozdział II</Title>
+            <Flex>
+              <Text color="quinary">Porównanie</Text>
+            </Flex>
+          </FlexBox>
         </Slide>
 
         <Slide transition={["fade"]} bg>
-          <Title>I/O</Title>
+          <FlexBox align="center" style={{ height: "100%" }}>
+            <Title>I/O</Title>
+          </FlexBox>
         </Slide>
 
         <Slide style={{ overflow: "scroll" }} transition={["fade"]}>
@@ -249,9 +261,45 @@ export default class Presentation extends React.Component {
               import { Child } from "./child";
 
               export const Component = ({ input, output }) => (
-                <Child onClick={output}>{input}</Child>
+                <Child onClick={() => output(42)} input={input}>{input}</Child>
               );
-              
+            `}
+          </Code>
+        </Slide>
+
+        <Slide style={{ overflow: "scroll" }} transition={["fade"]}>
+          <Title>I/O React + TS</Title>
+          <Code language="typescript">
+            {`
+              import { Child } from "./child";
+
+              interface Props {
+                input: string;
+                output: (arg: number) -> void;
+              }
+
+              export const Component: React.FC<Props> = ({ input, output }) => (
+                <Child onClick={() => output(42)} input={input}>{input}</Child>
+              );
+            `}
+          </Code>
+        </Slide>
+
+        <Slide style={{ overflow: "scroll" }} transition={["fade"]}>
+          <Title>I/O React + JS</Title>
+          <Code language="typescript">
+            {`
+              import PropTypes from "prop-types";
+              import { Child } from "./child";
+
+              const Component = ({ input, output }) => (
+                <Child onClick={() => output(42)} input={input}>{input}</Child>
+              );
+
+              Component.propTypes = {
+                input: PropTypes.string,
+                output: PropTypes.func,
+              }
             `}
           </Code>
         </Slide>
@@ -301,17 +349,32 @@ export default class Presentation extends React.Component {
            
            @Component({
                selector: 'app-todo-item',
-               template: '<child (click)="onClick.emit(42)">{{ name }} {{ lastName$ | async }}</child>',
+               template: '
+                <child (click)="output.emit(42)" [input]="input">
+                 {{ input }} {{ input$ | async }}
+                </child>',
            })
            export class AppComponent {
-             @Input() name: string;
-             @Input() lastName$: Observable<string>;
-             @Output() onClick = new EventEmitter<number>();
+             @Input() input: string;
+             @Input() input$: Observable<string>;
+             @Output() output = new EventEmitter<number>();
            }`}</Code>
         </Slide>
 
+        {/* <Slide transition={["fade"]} bg>
+          <FlexBox align="center" style={{ height: "100%" }}>
+            <Title>Podsumowanie</Title>
+          </FlexBox>
+        </Slide> */}
+
         <Slide>
-          <Title>Styles</Title>
+          <FlexBox
+            align="center"
+            flexDirection="column"
+            style={{ height: "100%" }}
+          >
+            <Title>Styles</Title>
+          </FlexBox>
         </Slide>
 
         <Slide style={{ overflow: "scroll" }} transition={["fade"]} bg>
@@ -320,7 +383,7 @@ export default class Presentation extends React.Component {
             {`
             import styled from "styled-components";
 
-            export const Button = styled.a\`
+            export const Element = styled.div\`
               color: white;
               &:last-child {
                 margin-bottom: 0;
@@ -336,18 +399,18 @@ export default class Presentation extends React.Component {
           <Code>{`
           <template>
             <div>42</div>
+            <child />
           </template>
 
           <styles scoped lang="scss">
           @import "colors.scss";
           div {
-            color: $color;
+            color: $blue;
           }
           :v-deep span {
             color: red;
           }
           </styles>
-
           `}</Code>
         </Slide>
 
@@ -369,8 +432,26 @@ export default class Presentation extends React.Component {
         </Slide>
 
         <Slide transition={["fade"]}>
-          <Title>Forms</Title>
+          <FlexBox
+            align="center"
+            flexDirection="column"
+            style={{ height: "100%" }}
+          >
+            <Title>Forms</Title>
+          </FlexBox>
         </Slide>
+        {/* 
+        <Slide style={{ overflow: "scroll" }} transition={["fade"]}>
+          <Title>Form React</Title>
+          <Code language="typescript">{`
+            import { useState } from "react";
+
+            export const Form = () => {
+              const [input, setInput] = useState("");
+              return <input value={input} onChange={(e) => setInput(e.target.value)} />;
+            };
+          `}</Code>
+        </Slide> */}
 
         <Slide style={{ overflow: "scroll" }} transition={["fade"]}>
           <Title>Form React</Title>
@@ -403,10 +484,10 @@ export default class Presentation extends React.Component {
             
               return (
                 <form onSubmit={handleSubmit(onSubmit)}>
-                  <input defaultValue="test" {...register("example")} />
+                  <input defaultValue="Jan" {...register("firstName")} />
             
-                  <input {...register("exampleRequired", { required: true })} />
-                  {errors.exampleRequired && <span>This field is required</span>}
+                  <input {...register("lastName", { required: true })} />
+                  {errors.required && <span>This field is required</span>}
             
                   <input type="submit" />
                 </form>
@@ -434,7 +515,6 @@ export default class Presentation extends React.Component {
             },
           };
           </script>
-          
           `}</Code>
         </Slide>
 
@@ -463,16 +543,10 @@ export default class Presentation extends React.Component {
         >
           {/* <Title>Form Angular</Title> */}
           <Code>{`
-          import { Component } from '@angular/core';
-          import { FormGroup, FormBuilder, Validators }  from '@angular/forms';
-          
           @Component({
             selector: 'form-component',
             template: \`
             <form [formGroup]="form">
-              <label for="firstName">
-                FirstName:
-              </label>
               <input
                 id="firstName"
                 type="text"
@@ -485,7 +559,6 @@ export default class Presentation extends React.Component {
           })
           export class FormComponent {
             form: FormGroup;
-          
             constructor(private fb: FormBuilder) {
               this.form = this.fb.group({
                 firstName: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(42)]],
@@ -498,7 +571,13 @@ export default class Presentation extends React.Component {
         </Slide>
 
         <Slide transition={["fade"]} bgColor="primary">
-          <Title>Update</Title>
+          <FlexBox
+            align="center"
+            flexDirection="column"
+            style={{ height: "100%" }}
+          >
+            <Title>Update</Title>
+          </FlexBox>
         </Slide>
 
         <Slide style={{ overflow: "scroll" }} transition={["fade"]}>
@@ -523,23 +602,20 @@ export default class Presentation extends React.Component {
         >
           <Title>Update Vue</Title>
           <Code>{`
-        <template>
-          <div>{{ data }}</div>
-        </template>
+        <template><div>{{ field }}</div></template>
         
         <script>
         import TodoItem from "./TodoItem.vue";
         
         export default {
-          name: "Component",
-          actions: {
+          methods: {
             increase() {
-              this.data++;
+              this.field++;
             },
           },
           watch: {
-            data(new, old) {},
-            'some.nested.key'(newValue) {}
+            field(newValue, oldValue) {},
+            'some.nested.key'(newValue, oldValue) {}
           },
         };
         </script>
@@ -609,10 +685,10 @@ export default class Presentation extends React.Component {
           export const reducer = (state = initialState, action) => {
             switch (action.type) {
               case "counter/incremented":
-                return { value: state.value + 1 };
+                return { ...state, value: state.value + 1 };
               case "counter/decrement":
                 return produce(state, (draft) => {
-                  draft--;
+                  draft.value--;
                 });
               default:
                 return state;
@@ -678,8 +754,8 @@ export default class Presentation extends React.Component {
           <Title>Vuex</Title>
           <Code>{`
           export const actions = {
-            actionA({ commit, dispatch, store }, arg) {
-              commit("increment", arg);
+            actionA({ commit, dispatch, store }, payload) {
+              commit("increment", payload);
               dispatch("actionB", store.data);
           
               return 42;
@@ -704,13 +780,16 @@ export default class Presentation extends React.Component {
           <Title>Vuex</Title>
           <Code>{`
           <script>
-          import { mapActions } from "vuex";
+          import { mapActions, mapGetters } from "vuex";
           
           export default {
+            computed: {
+              ...mapGetters("module2", ["valueB2"])
+            }
             methods: {
               ...mapActions("module1", ["actionA1"]),
               method() {
-                const actionResult = this.actionA1();
+                const actionResult = this.actionA1(this.valueB2);
               },
             },
           };
@@ -722,15 +801,16 @@ export default class Presentation extends React.Component {
           <Title>Vuex</Title>
           <Code>{`
           <script>
-          import { mapMutations, mapGetters, mapState } from "vuex";
+          import { mapMutations, mapState } from "vuex";
           
           export default {
+            computed: {
+              ...mapState("module2", "store2")
+            }
             methods: {
-              ...mapMuttions("module1", ["increment"]),
-              ...mapGetters("module1", ["valueFroGetter"]),
-              ...mapState("module1", ["valueFromState"]),
+              ...mapMuttions("module1", ["mutation"]),
               method() {
-                this.increment(this.valueFroGetter, this.valueFromState);
+                this.mutation(this.valueFromGetter, this.store2);
               },
             },
           };
@@ -787,6 +867,12 @@ export default class Presentation extends React.Component {
           
           }
           `}</Code>
+        </Slide>
+
+        <Slide transition={["fade"]}>
+          <FlexBox align="center" style={{ height: "100%" }}>
+            <Title>Wnioski</Title>
+          </FlexBox>
         </Slide>
 
         <Slide transition={["fade"]}>
@@ -880,6 +966,46 @@ export default class Presentation extends React.Component {
           `}</Code>
         </Slide>
 
+        <Slide>
+          <FlexBox align="center" style={{ height: "100%" }}>
+            <Title>TypeScript</Title>
+          </FlexBox>
+        </Slide>
+
+        <Slide transition={["fade"]}>
+          <Title>Vue + TypeScript</Title>
+          <Table>
+            {/* <TableHeader>
+              <TableRow>
+                <TableCell>Temat</TableCell>
+                <TableCell>Ocena</TableCell>
+              </TableRow>
+            </TableHeader> */}
+            <TableBody>
+              <TableRow>
+                <TableCell>Wewnątrz komponentu</TableCell>
+                <TableCell>Od 3.0</TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell>Pomiędzy komponentemi</TableCell>
+                <TableCell>Brak wsparcia</TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell>HTML</TableCell>
+                <TableCell>Brak wsparcia</TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell>Wewnątrz stora</TableCell>
+                <TableCell>Niełatwo, ale się da</TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell>store {"<->"} component</TableCell>
+                <TableCell>Tylko przez composition</TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
+        </Slide>
+
         <Slide transition={["fade"]}>
           <Title bold style={{ marginBottom: "15vh" }}>
             Rozdział III
@@ -900,21 +1026,102 @@ export default class Presentation extends React.Component {
             justifyContent="center"
             flexDirection="column"
           >
-            <Text color="quinary">
-              Small apps
-              <br />
-              Presentation apps
-              <br />
-              PoC / Demo / Internal apps
-              <br />
-            </Text>
+            <Appear>
+              <Text color="quinary">Małe aplikacja</Text>
+            </Appear>
+            <Appear>
+              <Text color="quinary">Wiele widoków, ale mało logiki </Text>
+            </Appear>
+            <Appear>
+              <Text color="quinary">Niewielki zespół</Text>
+            </Appear>
+            <Appear>
+              <Text color="quinary">PoC / Demo</Text>
+            </Appear>
+          </FlexBox>
+        </Slide>
+
+        <Slide>
+          <FlexBox align="center" style={{ height: "100%" }}>
+            <Title>Gdyby...</Title>
+          </FlexBox>
+        </Slide>
+
+        <Slide>
+          <FlexBox align="center" style={{ height: "100%" }}>
+            <Image src={vue1} width="500" />
+            <Image src={vue2} width="500" />
+          </FlexBox>
+        </Slide>
+
+        <Slide>
+          <FlexBox align="center" style={{ height: "100%" }}>
+            <Image src={react} height="500" />
+          </FlexBox>
+        </Slide>
+
+        <Slide>
+          <FlexBox align="center" style={{ height: "100%" }}>
+            <Image src={angular} height="500" />
           </FlexBox>
         </Slide>
 
         <Slide transition={["fade"]}>
-          <Title size={6} style={{ color: "#f80045" }}>
-            Thank you :*
+          <Title bold style={{ marginBottom: "15vh" }}>
+            Rozdział V
           </Title>
+          <FlexBox
+            alignItems="center"
+            justifyContent="center"
+            flexDirection="column"
+          >
+            <Text margin="10px 0 0" color="quinary">
+              Czy warto uczyć się Vue?
+            </Text>
+          </FlexBox>
+        </Slide>
+
+        <Slide>
+          <Title>Kiedy się warto uczyć Vue</Title>
+          <FlexBox
+            alignItems="center"
+            justifyContent="center"
+            flexDirection="column"
+          >
+            <Appear>
+              <Text color="quinary" style={{ margin: "0", padding: "0" }}>
+                Junior developer?
+              </Text>
+            </Appear>
+            <Appear>
+              <Text color="quinary" style={{ margin: "0", padding: "0" }}>
+                Senior developer?
+              </Text>
+            </Appear>
+            <Appear>
+              <Text color="quinary" style={{ margin: "0", padding: "0" }}>
+                Angular developer?
+              </Text>
+            </Appear>
+            <Appear>
+              <Text color="quinary" style={{ margin: "0", padding: "0" }}>
+                Backend developer?
+              </Text>
+            </Appear>
+          </FlexBox>
+        </Slide>
+
+        <Slide transition={["fade"]}>
+          <Title>Czy warto uczyś się Vue w 2022 roku?</Title>
+          <Appear>
+            <Text color="quinary" style={{ margin: "0", padding: "0" }}>
+              Raczej nie
+            </Text>
+          </Appear>
+        </Slide>
+
+        <Slide transition={["fade"]}>
+          <Title>Dziękuję :*</Title>
         </Slide>
       </Deck>
     );

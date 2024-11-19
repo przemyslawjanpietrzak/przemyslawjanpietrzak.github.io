@@ -105,7 +105,7 @@ layout: center
 
 # Handler
 
-```ts {1|5-7}
+```ts {all|1|5-7}
 class AuthTokenIsMissingError extends Error {}
 
 const loadAuthToken = async () => {
@@ -236,7 +236,7 @@ dsad
 # Effect
 
 
-```ts {1|3|3-4|6|6-7|all}
+```ts {all|1|3|3-4|6|6-7|all}
 Effect<Success, Error, Requirements>;
 
 const value = Effect.succeed(42);
@@ -250,7 +250,7 @@ type Fail = Effect<never, Error, never>;
 
 # Program
 
-```ts {3,6|4-5|8|all}
+```ts {all|3,6|4-5|8|all}
 import { Effect, pipe } from 'effect';
 
 const program = pipe(
@@ -280,7 +280,7 @@ const result = Effect.runSync(program);
 
 # Fail
 
-```ts{2-5|6|all}
+```ts{all|2-5|6|all}
 import { Effect, pipe } from 'effect';
 
 const program = pipe(
@@ -309,7 +309,7 @@ const program = pipe(
 
 # Map
 
-```ts{4-5|6|7|all}
+```ts{all|4-5|6|7|all}
 import { Effect, pipe } from 'effect';
 
 const program = pipe(
@@ -325,7 +325,7 @@ const result = Effect.runSync(program);
 
 # Error handler
 
-```ts{3-5|9|11|12|all}
+```ts{all|3-5|9|11|12|all}
 import { Effect, pipe } from "effect"
 
 class AuthTokenIsMissingError {
@@ -452,7 +452,7 @@ const program = pipe(
 
 # Error
 
-```ts {1|2-3|4}
+```ts {all|1|2-3|4}
 const result = Effect.runPromise(program);
 // Argument of type 'Effect<number, never, AuthContext>'
 // is not assignable to parameter of type 'Effect<number, never, never>'
@@ -476,7 +476,7 @@ const result = Effect.runPromise(runnable);
 ---
 
 #How?
-```ts {5-6}
+```ts {all|Żł5-6}
 const program = pipe(
   Effect.promise(() => fetch('')),
   Effect.flatMap((token) =>
